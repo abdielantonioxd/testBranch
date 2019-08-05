@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html ng-app="nannyApp">
+<% include partials/head/headJoin%>
+
+<body>
+  <div>
+    <% include partials/header/header%>
+  </div>
+  <div class="container " ng-cloak ng-controller="ctrlProfile">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="display: initial !important">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h2 class=" text-center "> <i class="fa fa-calendar  m-3"></i> Disponibilidad </h2>
+          </div>
+          <div class="modal-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Día</th>
+                  <th scope="col">Desde</th>
+                  <th scope="col">Hasta</th>
+                </tr>
+              </thead>
+              <tbody id="disponibilidad">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-4">
+        <div class=" profile-card mt-5 clas-profile">
+          <div>
+            <img class="rounded mx-auto d-block w-75" ng-src="/public/images/{{infoNanny.imagesP}}">
+            <div class="row">
+              <div class="col-12  d-flex justify-content-center">
+                <button class=" btn btn-block  text-center mt-3 class-disponibilidad" data-toggle="modal"
+                  data-target=".bd-example-modal-lg">
+                  <i class="fa fa-calendar m-3"></i>Disponibilidad</button>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-12">
+                <h5 class=" text-center info-adicional">Información Adicional</h5>
+                <ol class="m-0" ng-repeat="s in servicesA " style="list-style: none !important"
+                  ng-hide="dataExistAdicional">
+                  <li class="text-justify"> <i class="fa fa-check-circle m-2 icon-check m-2"></i> {{s}}</li>
+                </ol>
+                <ol class="m-0" ng-repeat="s in othersServicesA " style="list-style: none !important"
+                  ng-hide="dataExist">
+                  <li class="text-justify"> <i class="fa fa-check-circle m-2 icon-check m-2"></i> {{s}}</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col col-sm-12 col-md-12" ng-hide="existsNanny">
+            <h5 class="mt-5">Tu perfil en Nanny 365,mantenlo siempre actualizado </h5>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="{{infoNanny.nannyID}}">{{infoNanny.nombre}}</h1>
+              <div class="float-right">
+
+                <button class="btn btn-warning btn-sm" type="button" ng-hide="existsNanny">
+                  <i class="fa fa-edit m-1"></i><a class="text-dark"
+                    href="/crear-perfil-nanny?nanny={{infoNanny.nannyID}}">Editar
+                    Perfil</a></button>
+              </div>
+              <ul class="m-0 p-0" style="list-style: none !important">
+                <li><strong>Miembro desde: </strong>{{infoNanny.miembro}} </li>
+                <li><strong>Edad: </strong>{{2019-infoNanny.edad}} años</li>
+                <li ng-hide="privateNumberActive"><strong>Teléfono: </strong>{{infoNanny.telefono}} </li>
+                <li><strong>Ciudad: </strong>{{infoNanny.provincia}}</li>
+                <li><strong>Zona donde prestra servicio:
+                  </strong>{{Zonas}}
+                </li>
+                <li><strong>Experiencia: </strong>{{infoNanny.experiencia}}</li>
+              </ul>
+              <h5 class="mt-3">Acerca de mi </h5>
+              <blockquote class="blockquote">
+                <p class="mb-0 font-me">{{infoNanny.sobreMi}}</p>
+                <footer class="blockquote-footer"></footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class=" col-md-6">
+              <h6 class=" info-adicional">Grupos de Edad </h6>
+              <ol class="m-0  p-0" ng-repeat="s in services " style="list-style: none !important"
+                ng-hide="dataExistGruposdeE">
+                <li> <i class="fa fa-check-square  m-1"></i> {{s}}</li>
+              </ol>
+            </div>
+            <div class="col-md-6">
+              <h6 class=" info-adicional">Servicios Especiales</h6>
+              <ol class="m-0  p-0" ng-repeat="s in servicesE " style="list-style: none !important"
+                ng-hide="dataExistEspecial">
+                <li> <i class="fa fa-check-square  m-1"></i> {{s}}</li>
+              </ol>
+              <ol class="m-0  p-0" ng-repeat="s in othersServicesEsp " style="list-style: none !important"
+                ng-hide="dataExistEsp">
+                <li> <i class="fa fa-check-square  m-1"></i> {{s}}</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+        <div class="container">
+          <div class="row">
+            <div class=" col col-md-6">
+              <h6 class=" info-adicional">Certificaciones</h6>
+              <ol class="m-0  p-0" ng-repeat="s in certificacion " style="list-style: none !important"
+                ng-hide="dataExistCertification">
+                <li> <i class="fa fa-check-square  m-1"></i> {{s}}</li>
+              </ol>
+            </div>
+            <div class=" col-md-6">
+              <h6 class="info-adicional">Verificaciones</h6>
+              <ol class="m-0  p-0" ng-repeat="s in verificacion " style="list-style: none !important"
+                ng-hide="dataExistVerification">
+                <li> <i class="fa fa-check-square  m-1"></i> {{s}}</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h6 class=" info-adicional">Tarifa</h6>
+              <p class="font-weight-bold">{{infoNanny.tarifa | currency}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5">
+    <% include partials/footer/footer%>
+  </div>
+  <% include partials/script/script%>
+</body>
+
+</html>

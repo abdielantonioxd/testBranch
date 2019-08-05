@@ -1,0 +1,47 @@
+<nav class="navbar navbar-light navbar-expand-lg shadow-sm navigation-clean-button" style="font-weight: bold;" ng-cloak
+  ng-controller="ctrl-validate-session">
+  <div class="container">
+    <a class="navbar-brand float-left " href="/" style="width:235px;">
+      <img class="imageslogo" src="images/hard.png"><img src="images/nanny.png">
+    </a>
+    <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse text-center " id="navcol-1">
+      <ul class="nav navbar-nav mr-auto">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link  nav-class  " href="/inicio-de-sesion" style="font-size: 14px;"><strong>ENTRAR</strong></a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link nav-class" href="/registro-nanny" style="font-size: 14px;"><strong>REGISTRATE</strong></a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link  nav-class" href="/busqueda-de-nanny" style="font-size: 14px;"><strong>ENCUENTRA
+              NANNY</strong>
+          </a>
+        </li>
+      </ul>
+      <!-- Example split danger button -->
+      <div class="btn-group" ng-hide="sessionActive">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" style="border: solid 1px #aa2a83;">
+          {{email}}
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <button class="dropdown-item" type="button">
+            <a class="text-dark" href="/perfil-nanny?nanny={{linkCreateProfile}}">Ver perfil</a>
+          </button>
+          <button class="dropdown-item" type="button ">
+            <a class="text-dark" href="/crear-perfil-nanny?nanny={{linkCreateProfile}}">Editar Perfil</a></button>
+          <button class="dropdown-item" type="button" ng-hide="sessionNanny" ng-click="closeSession()">Cerrar
+            sesión</button>
+          <button class="dropdown-item" type="button" ng-hide="sessionFacebook" ng-click="closeSession('facebook')">Cerrar
+            sesión sesión</button>
+          <button class="dropdown-item" type="button" ng-hide="sessionGoogle" ng-click="closeSession('google')">Cerrar
+            sesión sesión</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

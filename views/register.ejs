@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html ng-app="nannyApp">
+<% include partials/head/headRegister%>
+
+<body ng-cloak>
+  <% include partials/header/header%>
+  <div ng-controller="ctrl-register-nanny">
+    <div class="d-flex flex-column justify-content-center" id="login-box">
+      <form name="formRegister" id="formRegister">
+        <div class="login-box-header">
+          <h4 class="word-h4">¡Regístrate para comenzar!</h4>
+        </div>
+        <div class="email-login " style="background-color:#ffffff;">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <label for="">Email</label>
+                <input ng-class="formRegister.email.$touched && formRegister.email.$invalid ? 'red':'' " type="email"
+                  class="email-imput form-control" name="email" ng-model="email" style="margin-top:10px;" required=""
+                  placeholder="Ingrese su correo" minlength="6">
+                <small id="emailHelp" class="form-text text-danger"
+                  ng-show="formRegister.email.$touched && formRegister.email.$invalid">Este
+                  campo es requerido..</small>
+              </div>
+              <div class="col-12 mt-3">
+                <label>Contraseña<b id="labelB" style="font-size: 12px;"></b> </label>
+                <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+                <div class="input-group mb-2 mr-sm-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-eye " id="viewPassword"
+                        onclick="viewPassword('view');"></i>
+                      <i class="fa fa-eye-slash " id="hidePassword" onclick="viewPassword('hide');"></i></div>
+                  </div>
+                  <input ng-class="formRegister.password.$touched && formRegister.password.$invalid ? 'red':'' "
+                    type="password" class="form-control" name="password" id="password"
+                    placeholder="Ingresa tu contraseña" ng-model="password" required minlength="8"
+                    onkeyup="countCharsPassword(this)" >
+                  <small class="form-text text-danger"
+                    ng-show="formRegister.password.$touched && formRegister.password.$invalid">Este
+                    campo es requerido</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col d-flex justify-content-center">
+            <div id="registerNanny"></div>
+          </div>
+          <div class="col ">
+            <div class="form-check form-check-inline" id="form-check-rememberMe">
+              <input ng-class="formRegister.terminos.$touched && formRegister.terminos.$invalid ? 'red':'' "
+                class="form-check-input" type="checkbox" id="terminos" name="terminos" ng-model="terminos"
+                for="remember" style="cursor:pointer;" name="check">
+              <label class="form-check-label" for="terminos">
+                <span class="form-check-label"> Al
+                  registrarte aceptas
+                  los<a href="/terminos-condiciones" target="_blank"> términos
+                    y condiciones de Nanny 365</a></span>
+              </label>
+              <small class="form-text text-danger"
+                ng-show="formRegister.terminos.$touched && formRegister.terminos.$invalid">Este
+                campo es requerido</small>
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" name="MethodRegister" value="Nanny">
+        <div class="col">
+          <div class="submit-row mt-2" style="margin-bottom:8px;padding-top:0px;">
+            <button class="btn btn-primary btn-block box-shadow" id="submit-id-submit"
+              ng-click="validateDataForm('Nanny')">
+              Regístrate
+              ahora <i class="fa fa-user-plus"></i> </button>
+          </div>
+        </div>
+        <div id="login-box-footer" style="padding:10px 20px;padding-bottom:23px;padding-top:18px;">
+          <p style="margin-bottom:0px;"><a id="register-link" href="/inicio-de-sesion">Ya estoy registrado</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="mt-5">
+    <% include partials/footer/footer%>
+  </div>
+
+  <% include partials/script/script %>
+</body>
+
+</html>

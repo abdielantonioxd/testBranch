@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html ng-app="nannyApp">
+<% include partials/head/headRegister%>
+
+<body ng-cloak>
+  <% include partials/header/header%>
+  <div ng-controller="ctrl-register-nanny">
+    <div class="d-flex flex-column justify-content-center" id="login-box">
+      <form name="formRegister" id="formRegister">
+        <div class="login-box-header">
+          <h4 class="word-h4">¡Regístrate para comenzar!</h4>
+        </div>
+        <div class="d-flex flex-row align-items-center login-box-seperator-container">
+          <div class="login-box-seperator"></div>
+        </div>
+        <div class="email-login" style="background-color:#ffffff;">
+          <input ng-class="formRegister.nombre.$touched && formRegister.nombre.$invalid ? 'red':'' " type="text"
+            class="email-imput form-control" name="nombre" ng-model="nombre" style="margin-top:10px;" required=""
+            placeholder="Ingrese su nombre completo">
+          <small id="emailHelp" class="form-text text-danger"
+            ng-show="formRegister.nombre.$touched && formRegister.nombre.$invalid">Este
+            campo es requerido..</small>
+          <input ng-class="formRegister.email.$touched && formRegister.email.$invalid ? 'red':'' " type="email"
+            class="email-imput form-control" name="email" ng-model="email" style="margin-top:10px;" required=""
+            placeholder="Ingrese su correo">
+          <small id="emailHelp" class="form-text text-danger"
+            ng-show="formRegister.email.$touched && formRegister.email.$invalid">Este
+            campo es requerido..</small>
+          <input ng-class="formRegister.telefono.$touched && formRegister.telefono.$invalid ? 'red':'' " type="text"
+            class="password-input form-control" name="telefono" ng-model="telefono" style="margin-top:10px;" required=""
+            placeholder="ingrese su Teléfono">
+          <small class="form-text text-danger"
+            ng-show="formRegister.telefono.$touched && formRegister.telefono.$invalid">Este
+            campo es requerido</small>
+          <input ng-class="formRegister.password.$touched && formRegister.password.$invalid ? 'red':'' " type="password"
+            class="password-input form-control" name="password" ng-model="password" style="margin-top:10px;" required=""
+            placeholder="ingrese su contraseña" minlength="4">
+          <small class="form-text text-danger"
+            ng-show="formRegister.password.$touched && formRegister.password.$invalid">Este
+            campo es requerido</small>
+        </div>
+        <div class="col d-flex justify-content-center">
+          <div class="form-check form-check-inline" id="form-check-rememberMe">
+            <input ng-class="formRegister.terminos.$touched && formRegister.terminos.$invalid ? 'red':'' "
+              class="form-check-input" type="checkbox" id="terminos" name="terminos" ng-model="terminos" for="remember"
+              style="cursor:pointer;" name="check">
+            <label class="form-check-label" for="terminos">
+              <span class="form-check-label">Al resgistrarte aceptas los términos y condiciones de Nanny 365</span>
+            </label>
+            <small class="form-text text-danger"
+              ng-show="formRegister.terminos.$touched && formRegister.terminos.$invalid">Este
+              campo es requerido</small>
+          </div>
+        </div>
+        <input type="hidden" name="MethodRegister" value="Padres">
+
+        <div class="submit-row mt-2" style="margin-bottom:8px;padding-top:0px;">
+          <button class="btn btn-primary btn-block box-shadow" id="submit-id-submit"
+            ng-click="validateDataForm('Nanny')">
+            Regístrate ahora <i class="fas fa-user-plus"></i> </button>
+          <!-- <div class="row">
+            <div class="col">
+              <button class="btn btn-primary btn-block box-shadow" id="submit-id-submit" ng-click="validateDataUsers()">
+                Iniciar sesion <i class="fas fa-sign-in-alt"></i> </button> </div>
+            <div class="col">
+              <button class="btn btn-primary btn-block box-shadow" id="submit-id-submit" ng-click="validateDataUsers()">
+                Regístrate
+                ahora <i class="fas fa-user-plus"></i> </button> </div>
+          </div> -->
+        </div>
+        <div id="login-box-footer" style="padding:10px 20px;padding-bottom:23px;padding-top:18px;">
+          <p style="margin-bottom:0px;"><a id="register-link" href="" data-toggle="modal" data-target="#InicioSesion">Ya
+              estoy registrado</a>
+          </p>
+        </div>
+      </form>
+      <div class="modal-box2">
+        <div class="modal fade" id="InicioSesion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          data-backdrop="false" style="background: #aa2b8352;">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">×</span></button>
+              <div class="modal-body">
+                <h3>Iniciar sesión Nanny 365</h3>
+                <form name="InicioSession" id="InicioSession">
+                  <input type="hidden" name="nombre" value=" ">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Email:</label>
+                    <input ng-class="InicioSession.email.$touched && InicioSession.email.$invalid ? 'red':'' "
+                      type="email" class="email-imput form-control" name="email" ng-model="email"
+                      style="margin-top:10px;" required="" placeholder="Ingrese su email completo">
+                    <small id="emailHelp" class="form-text text-danger"
+                      ng-show="InicioSession.email.$touched && InicioSession.email.$invalid">Este
+                      campo es requerido..</small>
+                  </div>
+                  <div class="form-group">
+                    <input ng-class="formRegister.password.$touched && formRegister.password.$invalid ? 'red':'' "
+                      type="password" class="password-input form-control" name="password" ng-model="password"
+                      style="margin-top:10px;" required="" placeholder="ingrese su contraseña" minlength="4">
+                    <small class="form-text text-danger"
+                      ng-show="InicioSession.password.$touched && InicioSession.password.$invalid">Este
+                      campo es requerido</small>
+                  </div>
+                  <input type="hidden" name="MethodRegister" value="Padres">
+                  <input type="hidden" name="Option" value="Create">
+                  <div class="col d-flex justify-content-center">
+                    <div class="form-check form-check-inline" id="form-check-rememberMe">
+                      <input ng-class="formRegister.terminos.$touched && formRegister.terminos.$invalid ? 'red':'' "
+                        class="form-check-input" type="checkbox" name="terminos" ng-model="terminos" for="remember"
+                        style="cursor:pointer;">
+                      <label class="form-check-label" for="terminos">
+                        <span class="form-check-label">Al resgistrarte aceptas los términos y condiciones de Nanny
+                          365</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <button class="btn btn-primary btn-block box-shadow" ng-click="validateDataForm('padres')">
+                      Regístrate ahora <i class="fas fa-user-plus"></i> </button> </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <% include partials/script/script%>
+</body>
+
+</html>

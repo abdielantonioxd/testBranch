@@ -1,0 +1,47 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="google-signin-client_id"
+    content="728368102731-6v5lvi9db6hc68dgcled0bf1s8k6v4c4.apps.googleusercontent.com">
+  <title><%=title%></title>
+  <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous"> -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.3&appId=1102432019949500&autoLogAppEvents=1">
+  </script>
+  <script src="/js/api-facebook.js"></script>
+  <script src="/js/api-google.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+  <link rel="shortcut icon" href="images/36217412-0-favicom.png" type="image/ico" />
+  <link rel="stylesheet" href="assets/css/join.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+  <link rel="stylesheet" href="assets/css/Login-Box-En.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- <%include ../fonts/fonts%> -->
+  <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaLogin&render=verifyCallback" async defer>
+  </script>
+  <script>
+    var registerNanny;
+    var recaptchaLogin = function () {
+      registerNanny = grecaptcha.render('registerNanny', {
+        'sitekey': '6LfMJKwUAAAAAHjBtUwhW7XdTksi1B5jPm9nFS2i',
+        'theme': 'light'
+      });
+    };
+  </script>
+  <%include ./alertify%>
+</head>
+<style>
+  [ng\:cloak],
+  [ng-cloak],
+  [data-ng-cloak],
+  [x-ng-cloak],
+  .ng-cloak,
+  .x-ng-cloak {
+    display: none !important;
+  }
+</style>

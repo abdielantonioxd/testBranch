@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html ng-app="nannyApp">
+<% include partials/head/headJoin%>
+
+<body ng-cloak ng-controller="ctrl-create-profile">
+  <% include partials/header/header%>
+  <div class="mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 justify-content-center text-center">
+          <p class="size-text bold"><strong>Tu perfil en Nanny 365,manténlo siempre actualizado</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-3">
+    <div class="row">   
+      <div class=" col-md-3 col-sm-3 mt-2">
+        <div class=" d-flex justify-content-center" ng-hide="imagesPlaceholder">
+          <img  class="rounded mx-auto d-block w-50" id="chamgeImages" src="images/icon-girl.png">
+        </div>
+        <div class="mt-1">
+          <button class="btn btn-danger btn-lg btn-block" type="button" style="background-color: rgb(188,8,95);"
+            ng-click="imagesProfile()">Editar Foto <i class="fa fa-edit"></i>
+          </button>
+        </div>
+        <!-- modal insert and edit Images  -->
+        <div class="modal-box2">
+          <div class="modal fade" id="modalImages" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            data-backdrop="false" style="background: #aa2b8352;">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">×</span></button>
+                <div class="modal-body">
+                  <div class="icon"><i class="fa fa-check"></i></div>
+                  <h3 class="title">Ingresa tu Foto de Perfil</h3>
+                  <p class="description" id="message"></p>
+                  <div class="col-md-12 d-flex justify-content-center">
+                    <form method="POST" id="imagesTwo" enctype="multipart/form-data">
+                      <div class="custom-file mt-3">
+                        <input type="file" id="file-uploadTwo" name="image" class="custom-file-input"
+                          id="customFileLang" lang="es" onchange="imgFileAlTwo(this)">
+                        <label class="custom-file-label" for="customFileLang" id="namefileTwo">Ingrese imagen de
+                          perfil</label>
+                      </div>
+                      <div class="rounded mx-auto d-block mt-2" id="previewThree"></div>
+                      <div class="mt-3 messageEdit">
+                        <h4>¿Deseas guardar esta Imagen?</h4>
+                        <button class=" mt-2 btn btn-outline-primary  btn-md  btn-sm  border Save"
+                          onclick="saveImagesInServer('TwoTrue')">Subir imagen
+                          <i class="far fa-save"></i></button>
+                        <button class="mt-2 btn btn-outline-danger btn-md btn-sm border EditImageTwo"
+                          onclick="saveImagesInServer('TwoFalse')"> Elegir Otra <i class="far fa-edit"></i> </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end images Principal  -->
+      </div>
+      <div class=" col-md-7  col-sm-7mt-2 ">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active letter-a  " id="nav-home-tab" data-toggle="tab"
+                    href="#datosPersonales" role="tab" aria-controls="nav-home letter-a" aria-selected="true">Datos
+                    Personales</a>
+                  <a class="nav-item nav-link letter-a" id="nav-profile-tab" data-toggle="tab" href="#datosGenerales"
+                    role="tab" aria-controls="nav-profile letter-a" aria-selected="false">Datos Generales</a>
+                  <a class="nav-item nav-link letter-a" id="nav-contact-tab" data-toggle="tab" href="#disponibilidad"
+                    role="tab" aria-controls="nav-contact" aria-selected="false">Disponibilidad</a>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <!-- end nav -->
+        <div class="tab-content mt-3" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="datosPersonales" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="container">
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-12">
+                  <form id="formDataPersonal">
+                    <div class="form-group">
+                      <label class="font-size-label"><strong>Nombre y Apellido</strong> (Por favor no incluya caracteres
+                        especiales)</label>
+                      <input class="form-control" name="nombre" id="nombre" type="text" placeholder="Ingrese su nombre">
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <label class="font-size-label"><strong>Teléfono</strong></label>
+                        <input class="form-control" name="telefono" id="telefono" type="text"
+                          placeholder="Ingrese número de teléfono">
+                      </div>
+                      <div class="col" ng-hide="privateOf">
+                        <label class="font-size-label"><strong>Privado</strong></label></br></label>
+                        <input type="checkbox" id="privateNumber" name="privateNumber" class=" mt-3"
+                          data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="font-size-label"><strong>Fecha de nacimiento</strong><br></label>
+                      <input type="date" class="form-control" name="fechaN" value="{{fechaNacimiento}}" max="2999-12-31">
+                    </div>
+                    <div class="form-group">
+                      <label class="font-size-label"><strong>Provincia</strong><br></label>
+                      <div class="field">
+                        <select name="provincia" id="provincia">
+                          <option selected>Panamá</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="font-size-label">
+                        <strong>Elija una opcion de documento de identificación</strong> (Por favor adjuntar
+                        sudocumento: cédula o pasaporte)
+                      </label>
+                      <div class="row d-flex justify-content-center">
+                        <div class="col-3">
+                          <div class="mt-3 ml-0 pl-0 m-1">
+                            <label class="color-check container-check-search dbl" for="cedula"> Cédula
+                              <input type="checkbox"  id="cedula" ng-click="identID()">
+                              <span class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-3">
+                          <div class="mt-3">
+                            <label class="color-check container-check-search dbl" for="Pasaporte"> Pasaporte
+                              <input type="checkbox" id="Pasaporte" value="Pas"
+                                ng-click="identID()">
+                              <span class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <input class="form-control" type="text" name="identificacion" id="identificacion"
+                        placeholder="Ingrese su Número de Identificación" ng-hide="identificationInput"
+                        ng-model="cedula" ng-blur="validateCedula(cedula)">
+                    </div>
+                  </form>
+                  <!-- validate  -->
+                  <form method="POST" id="imagesP" enctype="multipart/form-data">
+                    <label class="h6 bold"> Documento de Identificación </label>
+                    <div class="custom-file">
+                      <input type="file" id="file-upload" name="image" class="custom-file-input" lang="es"
+                        onchange="imgFileP(this)">
+                      <label class="custom-file-label" for="customFileLang" id="namefile">Ingrese documento de
+                        identificación</label>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center" ng-hide="imagesID">
+                  <img class="rounded" id="chamgeImagesID" src="images/icon-girl.png" style="width: 200px;
+                        height: 200px;">
+                </div>
+                <div id="preview"></div>
+                <div class="mt-3 messageEdit ">
+                  <h4>¿Deseas guardar esta Imagen? </h4>
+                  <label>Por favor hacer clic en subir imagen</label>
+                  <button class=" mt-2 btn btn-outline-primary btn-md  btn-sm border Save m-4"
+                    onclick="saveImagesInServer('yes')">Subir imagen
+                    <i class="far fa-save"></i></button>
+                  <button class="mt-2 btn btn-outline-danger btn-md btn-sm border EditImage m-4"
+                    onclick="saveImagesInServer('no')"> Elegir Otra <i class="far fa-edit"></i> </button>
+                </div>
+                </form>
+
+                <div class="col-sm-12 d-flex justify-content-center mt-3 ">
+                  <button class="btn btn-danger btn-lg btn-block" id="sendDataPersonal" type="button"
+                    style="background-color: rgb(145,4,139);" ng-click="validateDataPersonal(this.id)">Guardar datos
+                    <i class="fa fa-save"></i>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Datos generales Tab 2  -->
+          <div class="tab-pane fade" id="datosGenerales" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="container mt-2">
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-12">
+                  <form action="">
+                    <div class="container ">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h5 class="color-h6">Experiencias<br></h5>
+                          <div class="mt-3" ng-repeat="e in experience">
+                            <label class="color-check container-check-search dbl" for="{{e.id}}"> {{e.name}}
+                              <input type="radio" name="experiencia" id="{{e.id}}" value="{{e.name}}"
+                                ng-model="e.isChecked" ng-click="getExperience(this.e)">
+                              <span class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <h5 class="color-h6">Servicios<br></h5>
+                          <div class="mt-3" ng-repeat="s in services">
+                            <label class="color-check container-check-search dbl" for="{{s.id}}"> {{s.name}}
+                              <input type="checkbox" id="{{s.id}}" value="{{s.name}}" ng-model="s.isChecked"
+                                ng-click="getServices(this.s)">
+                              <span name="{{s.name}}" class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="container mt-5">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h5 class="color-h6">Servicios Especiales <br></h5>
+                          <div class="mt-3" ng-repeat="se in serviceEspecial">
+                            <label class="color-check container-check-search dbl" for="{{se.id}}"> {{se.name}}
+                              <input type="checkbox" id="{{se.id}}" value="{{se.name}}" ng-model="se.isChecked"
+                                ng-click="getServiceEsp(this.se)">
+                              <span class="checkmark"></span>
+                            </label>
+                          </div>
+                          <div ng-hide="otherServicesEspecial">
+                            <div class="form-group mb-2">
+                              <label><b>Lista de otros servicios</b> </label>
+                              <div>
+                                <ul class="list-group" id="otherServicesCreate"
+                                  ng-repeat="e in serviceOthers track by $index ">
+                                  <li class="list-group-item" id="{{e}}">{{e}} <i
+                                      class="fas fa-trash-alt text-danger float-right"
+                                      ng-click="deleteOthersServiceEspe(this.e)"></i></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label id="serviceOthers"></label>
+                              <input type="text" class="form-control" id="othersService"
+                                placeholder="Ingrese su servicio" maxlength="30" onkeyup="countCharsOthers(this)">
+                            </div>
+                            <a class="btn btn-warning btn-sm" ng-click="addOthersServiceEspeciales()"><i
+                                class="fas fa-plus"></i> Agregar</a>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <h5 class="color-h6">Información Adicional<br></h5>
+                          <div class="mt-3" ng-repeat="serv in serviceEspecialTwo">
+                            <label class="color-check container-check-search dbl" for="{{serv.id}}"> {{serv.name}}
+                              <input type="checkbox" id="{{serv.id}}" value="{{serv.name}}" ng-model="serv.isChecked"
+                                ng-click="getServiceaditional(this.serv)">
+                              <span class="checkmark"></span>
+                            </label>
+                          </div>
+                          <div ng-hide="otherServicesAdicional">
+                            <div class="form-group mb-2">
+                              <label><b>Lista de otros servicios Adicionales</b> </label>
+                              <div>
+                                <ul class="list-group" id="otherServicesAdicionalCreate"
+                                  ng-repeat="a in serviceAdicionalOthers track by $index ">
+                                  <li class="list-group-item" id="{{a}}">{{a}} <i
+                                      class="fas fa-trash-alt text-danger float-right"
+                                      ng-click="deleteOthersServiceAdi(this.a)"></i></li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label id="serviceOthersAdi"></label>
+                              <input type="text" class="form-control" id="othersServiceAdicional"
+                                placeholder="Ingrese su servicio" maxlength="30" onkeyup="countCharsOthersAdi(this)">
+                            </div>
+                            <a class="btn btn-warning btn-sm" ng-click="addOthersServiceAdicionales()"><i
+                                class="fas fa-plus"></i> Agregar</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="container mt-4">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h5 class="color-h6">Certificaciones<br></h5>
+                          <div class="mt-3" ng-repeat="ce in certificacion">
+                            <label class="color-check container-check-search dbl" for="{{ce.id}}"> {{ce.name}}
+                              <input type="checkbox" id="{{ce.id}}" value="{{ce.name}}" ng-model="ce.isChecked"
+                                ng-click="getCertification(this.ce)">
+                              <span class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <h5 class="color-h6">Verificaciones <br></h5>
+                          <div class="mt-3" ng-repeat="ce2 in certificaionTwo">
+                            <label class="color-check container-check-search dbl" for="{{ce2.id}}"> {{ce2.name}}
+                              <input type="checkbox" id="{{ce2.id}}" value="{{ce2.name}}" ng-model="ce2.isChecked"
+                                ng-click="getverification(this.ce2)" disabled>
+                              <span class="checkmark"></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- servicios  -->
+                    <div class="form-group mt-4">
+                      <label class="font-size-label">Tarifas<br></label>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" class="form-control" id="tarifa"
+                          aria-label="Amount (to the nearest dollar)">
+                        <div class="input-group-append">
+                          <span class="input-group-text">.00</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="font-size-label" id="textTarea">Acerca de mi<br></label>
+                      <textarea class="form-control" maxlength="400" id="sobreMi" placeholder="Sobre mi..."
+                        onkeyup="countCharsTextarea(this)"></textarea>
+                      <div class="form-group">
+                        <h6 class="mt-3"><strong>¿ A cuáles zonas puedo desplazarme para ofrecer el servico de
+                            nanny</strong></h6>
+                        <!-- <div class="field">
+                      <select class="custom-select" name="distrito" id="selectdistrict"
+                        ng-options="option.name for option in corregimiento.Panama track by option.id"
+                        ng-model="corregimiento.selectedOption" ng-change="getZonas(this,this.id)">
+                      </select>
+                    </div> -->
+                        <div class="accordion" id="accordionExample">
+                          <div class="card">
+                            <div class="card-header" id="headingOne">
+                              <h5 class="mb-0">
+                                <button class="btn " type="button" data-toggle="collapse" data-target="#collapseOne"
+                                  aria-expanded="true" aria-controls="collapseOne" style="border: solid 1px #aa2a83;">
+                                  <i class="fas fa-map-marker-alt"></i> Zonas donde puedo desplazarme
+                                </button>
+                              </h5>
+                            </div>
+                            <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne"
+                              data-parent="#accordionExample">
+                              <div class="card-body">
+                                <div class="content hideContent " ng-repeat="z in Zonas  ">
+                                  <label class="color-check container-check-search dbl" for="{{z.id}}"> {{z.name}}
+                                    <input type="checkbox" id="{{z.id}}" value="{{z.name}}" ng-model="z.isChecked"
+                                      ng-click="getZonas(this.z)">
+                                    <span class="checkmark"></span>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 d-flex justify-content-center mt-3 ">
+                  <button class="btn btn-danger btn-lg btn-block" id="sendDataPersonal" type="button"
+                    style="background-color: rgb(145,4,139);" ng-click="sendDataAditionalDB()">Guardar Datos
+                    <i class="fa fa-save"></i>
+                  </button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- disponibilidad Horario Tab 3 -->
+          <div class="tab-pane fade" id="disponibilidad" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="container mt-2">
+              <div class="row d-flex justify-content-center">
+                <div class="col-md-12">
+                  <form id="Disponibilidad">
+                    <div class="container d-flex justify-content-center">
+                      <div class="row d-flex justify-content-center">
+                        <div class='col-md-12'>
+                          <div>
+                            <h5 class="text-center">Lunes</h5>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                              <div class="col-4">
+                                <label for="">Desde</label>
+                                <input class="time ui-timepicker-input" type="text" id="Lunes" name="lunes">
+                                <span id="lunestTarget" style="margin-left: 30px;"></span>
+                              </div>
+                              <div class="col-4">
+                                <label for="">Hasta</label>
+                                <input class="time ui-timepicker-input" type="text" id="LunesCierre" name="lunesCierre">
+                              </div>
+                            </div>
+
+                          </div>
+                          <!-- martes -->
+                          <div class="mt-5">
+                            <h5 class="text-center">Martes</h5>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                              <div class="col-4">
+                                <label for="">Desde</label>
+                                <input class="time ui-timepicker-input" type="text" id="Martes" name="martes">
+                              </div>
+                              <div class="col-4">
+                                <label for="">Hasta</label>
+                                <input class="time ui-timepicker-input" type="text" id="MartesCierre"
+                                  name="martesCierre">
+                              </div>
+                            </div>
+
+
+                          </div><br>
+                          <!-- miercoles -->
+                          <div class="mt-5">
+                            <h5 class="text-center">Miércoles</h5>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                              <div class="col-4">
+                                <label for="">Desde</label>
+                                <input class="time ui-timepicker-input" type="text" id="Miércoles" name="miercoles">
+                              </div>
+                              <div class="col-4">
+                                <label for="">Hasta</label>
+                                <input class="time ui-timepicker-input" type="text" id="MiércolesCierre"
+                                  name="miercolesCierre">
+                              </div>
+                            </div>
+
+                          </div>
+                          <!-- jueves -->
+                          <div class="mt-5">
+                            <h5 class="text-center">Jueves</h5>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                              <div class="col-4">
+                                <label for="">Desde </label>
+                                <input class="time ui-timepicker-input" type="text" id="Jueves" name="jueves">
+                              </div>
+                              <div class="col-4">
+                                <label for="">Hasta </label>
+                                <input class="time ui-timepicker-input" type="text" id="JuevesCierre"
+                                  name="juevesCierre">
+                              </div>
+                            </div>
+
+
+                          </div>
+                          <!-- viernes -->
+                          <div class="mt-5">
+                            <h5 class="text-center">Viernes</h5>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                              <div class="col-4">
+                                <label for="">Desde</label>
+                                <input class="time ui-timepicker-input" type="text" id="Viernes" name="viernes">
+                              </div>
+                              <div class="col-4">
+                                <label for="">Hasta</label>
+                                <input class="time ui-timepicker-input" type="text" id="ViernesCierre"
+                                  name="viernesCierre">
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <!-- sabado -->
+                          <div class="mt-5">
+                            <h5 class="text-center">Sábado</h5>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                              <div class="col-4">
+                                <label for="">Desde</label>
+                                <input class="time ui-timepicker-input" type="text" id="Sábado" name="sabado">
+                              </div>
+                              <div class="col-4">
+                                <label for="">Hasta</label>
+                                <input class="time ui-timepicker-input" type="text" id="SábadoCierre"
+                                  name="sabadoCierre">
+                              </div>
+                            </div>
+
+                          </div>
+                          <!-- domingo -->
+                          <div class="mt-5">
+                            <h5 class="text-center">Domingo</h5>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                              <div class="col-4">
+                                <label for="">Desde</label>
+                                <input class="time ui-timepicker-input" type="text" id="Domingo" name="domingo">
+                              </div>
+                              <div class="col-4">
+                                <label for="">Hasta</label>
+                                <input class="time ui-timepicker-input" type="text" id="DomingoCierre"
+                                  name="domingoCierre">
+                              </div>
+                            </div>
+
+                          </div>
+                          <div class="d-flex justify-content-center mt-3 ">
+                            <button class="btn btn-danger btn-lg btn-block" id="sendDataPersonal" type="button"
+                              style="background-color: rgb(145,4,139);" ng-click="sendDataDisponibilidad()">Guardar
+                              Datos
+                              <i class="fa fa-save"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <% include partials/footer/footer%>
+  </div>
+  <% include partials/script/script%>
+</body>
+
+</html>

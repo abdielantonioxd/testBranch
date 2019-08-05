@@ -1,0 +1,148 @@
+.gift {
+  width: 100%;
+  border: 1px solid #e2e2e2;
+  margin: 10px 0;
+  padding: 10px;
+  position: relative;
+}
+
+.gift__img {
+  text-align: center;
+  padding: 10px;
+  border: none;
+}
+
+.gift__img img {
+  margin: 0 auto;
+  display: block;
+  max-width: 100%;
+}
+
+.gift__name {
+  font-size: 20px;
+  display: block;
+  font-weight: 700;
+  font-style: normal;
+  margin: 2px 0 10px 0;
+  color: #4c4c4c;
+  text-align: left;
+}
+
+.gift__details {
+  font-size: 14px;
+  font-weight: 400;
+  color: #525050;
+  line-height: 18px;
+  /* font-style: italic; */
+}
+
+.gift__details p {
+  padding: 0;
+  margin-bottom: 3px;
+}
+
+.gift__bottom {
+  padding: 10px 0;
+}
+
+.gift__price-wrap {
+  color: #444444;
+  line-height: 18px;
+  font-size: 15px;
+}
+
+.gift__normal-price {
+  font-size: 15px;
+}
+
+.gift__today-price {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.gift__cta-wrap {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.gift__cta {
+  max-width: 265px;
+  background-color: #01a8ff;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 0 auto;
+  font-size: 15px;
+  color: #fff;
+  font-weight: 700;
+  padding: 17px 15px 17px;
+  outline: none;
+  line-height: 18px;
+  transition: all 0.3s;
+}
+
+.gift__cta:hover {
+  background: #3e5062;
+  text-decoration: none;
+  color: #fff;
+}
+
+.gift__cta-note {
+  font-size: 13px;
+  color: #336f25;
+  padding-top: 5px;
+  display: block;
+}
+
+.gift__rating {
+  margin: 10px 0 0;
+  text-align: center;
+}
+
+.gift__rating i {
+  color: #FFD700;
+  font-size: 17px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.gift__rating-number {
+  font-size: 13px;
+  margin-left: 4px;
+  line-height: 15px;
+  vertical-align: text-top;
+  margin-bottom: 3px;
+}
+
+@media (min-width: 768px) {
+  .gift__cta {
+    font-size: 18px;
+  }
+}
+
+.color-ckeck {
+  color: green !important;
+}
+
+.show-profile {
+  background-color: #aa0779 !important;
+  border: 0;
+  color: rgb(255, 255, 255);
+}
+
+.show-profile:hover {
+  background-color: #7e075a !important;
+  border: 0;
+  color: rgb(255, 255, 255);
+}
+
+.btn-warning {
+  color: #212529;
+  background-color: #fecc00 !important;
+  border-color: #fecc00 !important;
+}
+
+.btn-warning:hover {
+  color: #212529;
+  background-color: #ddb40f !important;
+  border-color: #ddb40f !important;
+}

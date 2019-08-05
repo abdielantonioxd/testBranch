@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="nannyApp">
+
+<% include partials/head/headJoin%>
+
+<body ng-cloak>
+  <% include partials/header/header%>
+  <div ng-controller="ctrl-session-start">
+    <section class="section section-relative " id="page_block_below_fold" data-at="section">
+      <div class="section-holder-border item-block item-absolute" data-at="section-border"></div>
+      <div class="section-holder-overlay item-block item-absolute" data-at="section-overlay"></div>
+      <div class="section-block">
+        <div class="section-inner section-fit section-relative ">
+          <div class="widget item-absolute  " id="element-131">
+            <div class="contents cropped item-block" data-at="image-cropp">
+            </div>
+          </div>
+          <div class="widget item-absolute bg-form card-4" id="element-2">
+            <div class="contents shape  box figure " data-at="shape"></div>
+          </div>
+          <div class="widget item-absolute" id="element-3">
+            <h5 class="text-center">¡Bienvenido!</h5>
+            <form name="formRegister" id="formRegister">
+              <div class="form-group ">
+                <label for="email">Email</label>
+                <input ng-class="formRegister.email.$touched && formRegister.email.$invalid ? 'red':'' " type="email"
+                  class="form-control " name="email" id="email" ng-model="email" aria-describedby="emailHelp"
+                  placeholder="Ingresa tu  email" required>
+                <small id="emailHelp" class="form-text text-danger"
+                  ng-show="formRegister.email.$touched && formRegister.email.$invalid">Este
+                  campo es requerido</small>
+              </div>
+              <div class="form-group">
+                <label>Contraseña<b id="labelB" style="font-size: 12px;"></b> </label>
+                <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+                <div class="input-group mb-2 mr-sm-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-eye " id="viewPassword"
+                        onclick="viewPassword('view');"></i>
+                      <i class="fa fa-eye-slash " id="hidePassword" onclick="viewPassword('hide');"></i></div>
+                  </div>
+                  <input ng-class="formRegister.password.$touched && formRegister.password.$invalid ? 'red':'' "
+                    type="password" class="form-control" name="password" id="password"
+                    placeholder="Ingresa tu contraseña" ng-model="password" required minlength="8"
+                    onkeyup="countCharsPassword(this)">
+                  <small class="form-text text-danger"
+                    ng-show="formRegister.password.$touched && formRegister.password.$invalid">Este
+                    campo es requerido</small>
+                </div>
+                <div class=" row d-flex justify-content-center">
+                  <div id="loginnanny"></div>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col">
+                  <p style="font-size:12px"><a href="/recuperar-password">¿Olvidaste tu contraseña?</a> </p>
+                </div>
+                <div class="col">
+                  <button type="submit" id="submit-id-submit" class="btn btn-dark  btn-block btn-acceder-dark "
+                    ng-click="validateDataUsers()"> Acceder <i class="fa fa-sign-in-alt"></i></button>
+                </div>
+              </div>
+              <div class="login-box-content mt-1">
+                <div class=" fb-login box-shadow mt-1" id="startSession">
+                  <a class=" align-items-center social-login-link none" href="#"
+                    style="font-family: Roboto,arial,sans-serif; font-size: 14px">
+                    <i class="fa fa-facebook-f none icon-Facebook-register"></i> Acceder con Facebook</a>
+                </div>
+                <div class="mt-2 d-flex justify-content-center" id="login">
+                  <a class="d-flex flex-row social-login-link none" href="">
+                    <i class="fab fa-google-plus-g icon-register-google"> </i>Acceder con Google+</a>
+                </div>
+              </div>
+
+              <div class=" mt-2 d-flex justify-content-center">
+                <div class="col-md-7 mt-3">
+                  <p style="font-size:12px">¿No tienes Cuenta? </p>
+                </div>
+                <div class="col-md-6 mt-2">
+                  <button class="btn btn-dark btn-block btn-send "> <a class="text-white none"
+                      href="/registro-nanny">Registrarte</a>
+                    <i class="fa  fa-user-plus"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="widget item-absolute headline " id="element-248" data-at="headline">
+            <div class="contents">
+              <h1>
+                <p><span class="x_1de1c13b">Únete a Nanny365</span></p>
+              </h1>
+            </div>
+          </div>
+          <div class="widget item-absolute paragraph mt-4" id="element-249" data-at="paragraph">
+            <div class="contents">
+              <p class="x_3579aa00"><span class="x_7b2817bf">Contacta con nosotros e infórmate de como puedes ofrecer
+                  tus servicios en Nanny365. Únete a la comunidad de forma sencilla y rápida a través de un simple
+                  correo</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Modal -->
+  </div>
+  <div class="modal-box2">
+    <div class="modal fade" id="facebookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      data-backdrop="false" style="background: #aa2b8352;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">×</span></button>
+          <div class="modal-body">
+            <div class="icon"><i class="fa fa-check"></i></div>
+            <h3 class="title">Nanny 365 <br> Inscripción
+              a Nanny 365</h3>
+            <p class="description" id="message"></p>
+            <div class="col-md-12 d-flex justify-content-center">
+              <div class="col-md-6"><button class="subscribe" onclick="InsertDataOfFacebook()">SI</button>
+              </div>
+              <div class="col-md-6"><button class="subscribe mt-2" data-dismiss="modal" aria-label="Close">NO</button>
+              </div>
+
+            </div>
+            <div class="col-md-12 d-flex justify-content-center">
+              <div class="col-md-6"><button class="subscribeTwo  mt-2" data-dismiss="modal" aria-label="Close">Ya estoy
+                  registrada</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+  <%include partials/footer/footer%>
+  <% include partials/script/script%>
+</body>
+
+</html>

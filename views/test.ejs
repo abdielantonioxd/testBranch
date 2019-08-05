@@ -1,0 +1,56 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id"
+    content="18455256224-gr0f4sbd822mna9hdepiajjcmq3rg2se.apps.googleusercontent.com">
+  <title><%=title%></title>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="/js/mainfacebookdevelopers.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.3&appId=292420341645624&autoLogAppEvents=1">
+  </script>
+</head>
+
+<body>
+  <div class="row ">
+    <div class="container">
+      <div class="col-md-6 mt-5 ">
+        <div class="fb-login-button" data-width="" data-size="medium" data-button-type="continue_with"
+          data-auto-logout-link="true" data-use-continue-as="true"></div>
+        <div id="status">
+        </div>
+      </div>
+      <div class="col-md-6 mt-5 ">
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <a href="#" onclick="signOut();">Sign out</a>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      console.log('Name: ' + profile.getName());
+      console.log('Image URL: ' + profile.getImageUrl());
+      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
+
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+  </script>
+</body>
+
+</html> -->
