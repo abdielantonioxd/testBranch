@@ -11,7 +11,7 @@ const setting = {
     db: {
       user: "nanny365",
       password: "i+a5.CDC",
-      host: "nanny365.catvg4uvcupb.us-east-2.rds.amazonaws.com",
+      host: "nanny365.ci3dz28ecn2n.us-west-2.rds.amazonaws.com",
       database: "nanny365"
     },
     security: {

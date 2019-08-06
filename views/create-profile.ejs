@@ -14,15 +14,16 @@
     </div>
   </div>
   <div class="container mt-3">
-    <div class="row">   
+    <div class="row">
       <div class=" col-md-3 col-sm-3 mt-2">
         <div class=" d-flex justify-content-center" ng-hide="imagesPlaceholder">
-          <img  class="rounded mx-auto d-block w-50" id="chamgeImages" src="images/icon-girl.png">
+          <img class="rounded mx-auto d-block w-50" id="chamgeImages" src="images/icon-girl.png">
         </div>
         <div class="mt-1">
-          <button class="btn btn-danger btn-lg btn-block" type="button" style="background-color: rgb(188,8,95);"
-            ng-click="imagesProfile()">Editar Foto <i class="fa fa-edit"></i>
+          <button class="btn btn-nanny  btn-block" type="button" ng-click="imagesProfile()">Editar Foto <i
+              class="fa fa-edit"></i>
           </button>
+
         </div>
         <!-- modal insert and edit Images  -->
         <div class="modal-box2">
@@ -33,25 +34,33 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                     aria-hidden="true">×</span></button>
                 <div class="modal-body">
-                  <div class="icon"><i class="fa fa-check"></i></div>
-                  <h3 class="title">Ingresa tu Foto de Perfil</h3>
                   <p class="description" id="message"></p>
                   <div class="col-md-12 d-flex justify-content-center">
-                    <form method="POST" id="imagesTwo" enctype="multipart/form-data">
-                      <div class="custom-file mt-3">
-                        <input type="file" id="file-uploadTwo" name="image" class="custom-file-input"
-                          id="customFileLang" lang="es" onchange="imgFileAlTwo(this)">
-                        <label class="custom-file-label" for="customFileLang" id="namefileTwo">Ingrese imagen de
-                          perfil</label>
+                    <form method="POST" id="imagesPrincipal" enctype="multipart/form-data">
+                      <div id="errMessage"></div>
+                      <div class="image-upload-wrap" id="image-upload-input-wrap">
+                        <input type='file' class="file-upload-input" id="file-upload-input" name="image"
+                          onchange="validateUpload(this);" />
+                        <div class="drag-text">
+                          <h3>Seleciona una imagen para tu perfil </h3>
+                        </div>
                       </div>
-                      <div class="rounded mx-auto d-block mt-2" id="previewThree"></div>
-                      <div class="mt-3 messageEdit">
-                        <h4>¿Deseas guardar esta Imagen?</h4>
-                        <button class=" mt-2 btn btn-outline-primary  btn-md  btn-sm  border Save"
-                          onclick="saveImagesInServer('TwoTrue')">Subir imagen
-                          <i class="far fa-save"></i></button>
-                        <button class="mt-2 btn btn-outline-danger btn-md btn-sm border EditImageTwo"
-                          onclick="saveImagesInServer('TwoFalse')"> Elegir Otra <i class="far fa-edit"></i> </button>
+                      <div class="file-upload-content" id="file-upload-content">
+                        <span class="color-alert" id="image-title"></span>
+                        <hr>
+                        <img class="file-upload-image" id="file-upload-image" src="#" alt="your image" />
+                        <div class="image-title-wrap">
+                          <button type="button" onclick="chooseAnotherImages()" class="btn btn-danger btn-block">Eligir
+                            Otra
+                            <span class="image-title">UploadedImage</span>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-sm-12">
+                          <button type="button" class="btn btn-nanny  btn-block" onclick="uploadImagesServ()">Guardar
+                            Imagen</button>
+                        </div>
                       </div>
                     </form>
                   </div>
@@ -106,7 +115,8 @@
                     </div>
                     <div class="form-group">
                       <label class="font-size-label"><strong>Fecha de nacimiento</strong><br></label>
-                      <input type="date" class="form-control" name="fechaN" value="{{fechaNacimiento}}" max="2999-12-31">
+                      <input type="date" class="form-control" name="fechaN" value="{{fechaNacimiento}}"
+                        max="2999-12-31">
                     </div>
                     <div class="form-group">
                       <label class="font-size-label"><strong>Provincia</strong><br></label>
@@ -125,7 +135,7 @@
                         <div class="col-3">
                           <div class="mt-3 ml-0 pl-0 m-1">
                             <label class="color-check container-check-search dbl" for="cedula"> Cédula
-                              <input type="checkbox"  id="cedula" ng-click="identID()">
+                              <input type="checkbox" id="cedula" ng-click="identID()">
                               <span class="checkmark"></span>
                             </label>
                           </div>
@@ -133,8 +143,7 @@
                         <div class="col-3">
                           <div class="mt-3">
                             <label class="color-check container-check-search dbl" for="Pasaporte"> Pasaporte
-                              <input type="checkbox" id="Pasaporte" value="Pas"
-                                ng-click="identID()">
+                              <input type="checkbox" id="Pasaporte" value="Pas" ng-click="identID()">
                               <span class="checkmark"></span>
                             </label>
                           </div>
@@ -147,41 +156,51 @@
                     </div>
                   </form>
                   <!-- validate  -->
-                  <form method="POST" id="imagesP" enctype="multipart/form-data">
-                    <label class="h6 bold"> Documento de Identificación </label>
-                    <div class="custom-file">
-                      <input type="file" id="file-upload" name="image" class="custom-file-input" lang="es"
-                        onchange="imgFileP(this)">
-                      <label class="custom-file-label" for="customFileLang" id="namefile">Ingrese documento de
-                        identificación</label>
+                  <div class="row">
+                    <div class="col-12">
+                      <div id="chamgeImagesID"></div>
+                      <form method="POST" id="imagesId" enctype="multipart/form-data">
+                        <div id="errMessage-Id"></div>
+                        <div class="image-upload-wrap" id="image-upload-input-wrap-Id">
+                          <input type='file' class="file-upload-input" id="file-upload-input-Id" name="image"
+                            onchange="validateUploadId(this);" />
+                          <div class="drag-text">
+                            <h3>Seleciona una imagen para tu perfil </h3>
+                          </div>
+                        </div>
+                        <div class="file-upload-content" id="file-upload-content-Id">
+                          <span class="color-alert" id="image-title-Id"></span>
+                          <hr>
+                          <img class="file-upload-image" id="file-upload-image-Id" src="#" alt="your image" />
+                          <div class="image-title-wrap">
+                            <button type="button" onclick="chooseAnotherImagesId()"
+                              class="btn btn-danger btn-block">Eligir Otra
+                            </button>
+                          </div>
+                        </div>
+                        <div class="row mt-3">
+                          <div class="col-sm-12">
+                            <button type="button" class="btn btn-nanny  btn-block" onclick="uploadImagesServ()">Guardar
+                              Imagen</button>
+                          </div>
+                        </div>
+                      </form>
                     </div>
-                </div>
-                <div class="d-flex justify-content-center" ng-hide="imagesID">
-                  <img class="rounded" id="chamgeImagesID" src="images/icon-girl.png" style="width: 200px;
-                        height: 200px;">
-                </div>
-                <div id="preview"></div>
-                <div class="mt-3 messageEdit ">
-                  <h4>¿Deseas guardar esta Imagen? </h4>
-                  <label>Por favor hacer clic en subir imagen</label>
-                  <button class=" mt-2 btn btn-outline-primary btn-md  btn-sm border Save m-4"
-                    onclick="saveImagesInServer('yes')">Subir imagen
-                    <i class="far fa-save"></i></button>
-                  <button class="mt-2 btn btn-outline-danger btn-md btn-sm border EditImage m-4"
-                    onclick="saveImagesInServer('no')"> Elegir Otra <i class="far fa-edit"></i> </button>
-                </div>
-                </form>
+                  </div>
+                  <div class="row mt-5">
+                    <div class="col-sm-12 d-flex justify-content-center mt-3 ">
+                      <button class="btn btn-danger btn-lg btn-block" id="sendDataPersonal" type="button"
+                        style="background-color: rgb(145,4,139);" ng-click="validateDataPersonal(this.id)">Guardar datos
+                        <i class="fa fa-save"></i>
+                      </button>
 
-                <div class="col-sm-12 d-flex justify-content-center mt-3 ">
-                  <button class="btn btn-danger btn-lg btn-block" id="sendDataPersonal" type="button"
-                    style="background-color: rgb(145,4,139);" ng-click="validateDataPersonal(this.id)">Guardar datos
-                    <i class="fa fa-save"></i>
-                  </button>
-
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+
           <!-- Datos generales Tab 2  -->
           <div class="tab-pane fade" id="datosGenerales" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="container mt-2">
@@ -366,6 +385,7 @@
               </div>
             </div>
           </div>
+
           <!-- disponibilidad Horario Tab 3 -->
           <div class="tab-pane fade" id="disponibilidad" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="container mt-2">
@@ -507,7 +527,6 @@
                       </div>
                     </div>
                   </form>
-
                 </div>
               </div>
             </div>
@@ -516,7 +535,6 @@
       </div>
     </div>
   </div>
-
   <div class="mt-5">
     <% include partials/footer/footer%>
   </div>
