@@ -266,8 +266,9 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       } else {
         console.log('empty')
       }
+      
       $scope.currentPage = 0;
-      $scope.pageSize = 5;
+      $scope.pageSize = 10;
       $scope.pages = [];
       $scope.pages.length = 0;
       var ini = $scope.currentPage - 10;

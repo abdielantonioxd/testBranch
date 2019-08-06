@@ -111,7 +111,7 @@
             ng-repeat="x in resultNanny | filter : search  | pagination: currentPage * pageSize | limitTo: pageSize ">
             <div class="gift row">
               <div class="gift__img col-sm-3 col-12">
-                <img class="img-thumbnail" ng-src="/public/images/{{x.imagesP}}">
+                <img class="img-thumbnail"  ng-src="/public/images/{{x.imagesP}}" onerror="this.src='/public/images/perfil.png'">
               </div>
               <div class="gift__info col-sm-9 col-12">
                 <h2 class="gift__name">{{x.nombre}} <br></h2>

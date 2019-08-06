@@ -35,7 +35,8 @@
                     aria-hidden="true">×</span></button>
                 <div class="modal-body">
                   <p class="description" id="message"></p>
-                  <div class="col-md-12 d-flex justify-content-center">
+
+                  <div class="col-md-12 d-flex justify-content-center" id="idForm">
                     <form method="POST" id="imagesPrincipal" enctype="multipart/form-data">
                       <div id="errMessage"></div>
                       <div class="image-upload-wrap" id="image-upload-input-wrap">
@@ -56,7 +57,7 @@
                           </button>
                         </div>
                       </div>
-                      <div class="row mt-3">
+                      <div class="row mt-3" id="saveImagesPerfil">
                         <div class="col-sm-12">
                           <button type="button" class="btn btn-nanny  btn-block" onclick="uploadImagesServ()">Guardar
                             Imagen</button>
@@ -158,14 +159,16 @@
                   <!-- validate  -->
                   <div class="row">
                     <div class="col-12">
-                      <div id="chamgeImagesID"></div>
+                      <div class="row" ng-hide="imagesID">
+                        <img class="rounded mx-auto d-block w-25" id="chamgeImagesID" src="#">
+                      </div>
                       <form method="POST" id="imagesId" enctype="multipart/form-data">
                         <div id="errMessage-Id"></div>
                         <div class="image-upload-wrap" id="image-upload-input-wrap-Id">
                           <input type='file' class="file-upload-input" id="file-upload-input-Id" name="image"
                             onchange="validateUploadId(this);" />
                           <div class="drag-text">
-                            <h3>Seleciona una imagen para tu perfil </h3>
+                            <h3>Ingresa tu Cédula o Pasaporte </h3>
                           </div>
                         </div>
                         <div class="file-upload-content" id="file-upload-content-Id">
@@ -178,7 +181,7 @@
                             </button>
                           </div>
                         </div>
-                        <div class="row mt-3">
+                        <div class="row mt-3" id="saveImagesId">
                           <div class="col-sm-12">
                             <button type="button" class="btn btn-nanny  btn-block" onclick="uploadImagesServ()">Guardar
                               Imagen</button>
@@ -250,7 +253,7 @@
                                 <ul class="list-group" id="otherServicesCreate"
                                   ng-repeat="e in serviceOthers track by $index ">
                                   <li class="list-group-item" id="{{e}}">{{e}} <i
-                                      class="fas fa-trash-alt text-danger float-right"
+                                      class="fa fa-minus text-danger float-right"
                                       ng-click="deleteOthersServiceEspe(this.e)"></i></li>
                                 </ul>
                               </div>
@@ -261,7 +264,7 @@
                                 placeholder="Ingrese su servicio" maxlength="30" onkeyup="countCharsOthers(this)">
                             </div>
                             <a class="btn btn-warning btn-sm" ng-click="addOthersServiceEspeciales()"><i
-                                class="fas fa-plus"></i> Agregar</a>
+                                class="fa fa-plus"></i> Agregar</a>
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -280,9 +283,10 @@
                                 <ul class="list-group" id="otherServicesAdicionalCreate"
                                   ng-repeat="a in serviceAdicionalOthers track by $index ">
                                   <li class="list-group-item" id="{{a}}">{{a}} <i
-                                      class="fas fa-trash-alt text-danger float-right"
+                                      class="fa fa-minus text-danger float-right"
                                       ng-click="deleteOthersServiceAdi(this.a)"></i></li>
                                 </ul>
+                                
                               </div>
                             </div>
                             <div class="form-group">
@@ -291,7 +295,7 @@
                                 placeholder="Ingrese su servicio" maxlength="30" onkeyup="countCharsOthersAdi(this)">
                             </div>
                             <a class="btn btn-warning btn-sm" ng-click="addOthersServiceAdicionales()"><i
-                                class="fas fa-plus"></i> Agregar</a>
+                                class="fa fa-plus"></i> Agregar</a>
                           </div>
                         </div>
                       </div>
@@ -353,7 +357,7 @@
                               <h5 class="mb-0">
                                 <button class="btn " type="button" data-toggle="collapse" data-target="#collapseOne"
                                   aria-expanded="true" aria-controls="collapseOne" style="border: solid 1px #aa2a83;">
-                                  <i class="fas fa-map-marker-alt"></i> Zonas donde puedo desplazarme
+                                  <i class="fa fa-map-marker-alt"></i> Zonas donde puedo desplazarme
                                 </button>
                               </h5>
                             </div>
@@ -514,7 +518,6 @@
                                   name="domingoCierre">
                               </div>
                             </div>
-
                           </div>
                           <div class="d-flex justify-content-center mt-3 ">
                             <button class="btn btn-danger btn-lg btn-block" id="sendDataPersonal" type="button"
@@ -531,6 +534,7 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

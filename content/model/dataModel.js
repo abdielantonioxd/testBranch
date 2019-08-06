@@ -68,7 +68,7 @@ var Check_Services = [{
   name: 'Escolar 6-12 años'
 }, {
   id: 'adolocentes',
-  name: 'Adolecentes +12 años'
+  name: 'Adolescentes +12 años'
 }
 ];
 
@@ -174,7 +174,6 @@ var ckeck_certificacionesTwo = [{
   id: 'recidencia',
   name: 'Residencia'
 }]
-
 
 var SearchZonas = [{
   id: 1,
