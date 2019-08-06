@@ -25,7 +25,7 @@ const setting = {
       },
       origin: {
         active: true,
-        domains: ['https://www.nanny365.app','http://www.nanny365.app']
+        domains: ['https://dev.nanny365.app','http://dev.nanny365.app']
       }
     }
   }
