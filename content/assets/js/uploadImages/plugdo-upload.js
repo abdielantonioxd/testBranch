@@ -3,13 +3,29 @@ function uploadImagesServer(config) {
   if (config.Module != "upload-image") {
     throw "this Module is not Fount in the configuration";
   } else {
+    var btn = config.save[0];
+    hidebtnSave(btn)
     var self = this;
     var configFile = "";
-    var config = "";
     var ObjectMultipleImages = []
   }
+  function hidebtnSave(btn) {
+    for (const btnP of Object.keys(btn)) {
+      if (document.getElementById(btn[btnP]) != null) {
+        document.getElementById(btn[btnP]).style.display = "none";
+      }
+    }
+  }
 
+  function showbtnSave(btn) {
+    for (const i of Object.keys(btn)) {
+      if (document.getElementById(btn[i]) != null) {
+        document.getElementById(btn[i]).style.display = "block";
+      }
+    }
+  }
   self.registerDataForm = function (configImages) {
+    showbtnSave(btn)
     configFile = configImages[1];
     config = configImages[0];
     if (configImages.length != 0) {
@@ -39,20 +55,20 @@ function uploadImagesServer(config) {
       if (config.validateSpace != undefined) {
         if (config.validateSpace != false) {
           if (config.previewMultiple != true) {
-       
-              if (configFile.data.files.length != 0) {
-                var nameImage = configFile.data.files[0].name;
-                if (nameImage.indexOf(" ") === -1) { } else {
-                  var err = {
-                    title: "Error",
-                    text: "El nombre de la imagen no deve contener espacios",
-                    icon: "error"
-                  }
-                  msgErr(err)
+
+            if (configFile.data.files.length != 0) {
+              var nameImage = configFile.data.files[0].name;
+              if (nameImage.indexOf(" ") === -1) { } else {
+                var err = {
+                  title: "Error",
+                  text: "El nombre de la imagen no deve contener espacios",
+                  icon: "error"
                 }
-              }else{
-                throw new TypeError("The images could not be processed")
+                msgErr(err)
               }
+            } else {
+              throw new TypeError("The images could not be processed")
+            }
           } else {
             throw new TypeError("la propiedad de validacion de espacios  no deve no esta disponible para Multiples imagenes ")
           }
@@ -191,6 +207,8 @@ function uploadImagesServer(config) {
         if (document.forms[index].id != undefined) {
           if (document.forms[index].id === configFile.data.form.id) {
             document.forms[index].reset();
+            configDelete.splice(1, 1);
+            hidebtnSave(btn)
             document.getElementById(config.contentImput).style.display = "block";
             document.getElementById(config.contentUpload).style.display = "none";
           }

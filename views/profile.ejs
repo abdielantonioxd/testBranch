@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html ng-app="nannyApp">
 <% include partials/head/headJoin%>
-
 <body>
   <div>
     <% include partials/header/header%>
@@ -80,7 +79,7 @@
               </div>
               <ul class="m-0 p-0" style="list-style: none !important">
                 <li><strong>Miembro desde: </strong>{{infoNanny.miembro}} </li>
-                <li><strong>Edad: </strong>{{2019-infoNanny.edad}} años</li>
+                <li><strong>Edad: </strong>{{2019 - infoNanny.edad}} </li>
                 <li ng-hide="privateNumberActive"><strong>Teléfono: </strong>{{infoNanny.telefono}} </li>
                 <li><strong>Ciudad: </strong>{{infoNanny.provincia}}</li>
                 <li><strong>Zona donde prestra servicio:

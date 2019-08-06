@@ -106,10 +106,14 @@ $scope.enter=function ($event){
       for (const i in form) {
         obj[form[i].name] = form[i].value;
       }
-      if (obj.nombre != "") {
-        console.log(obj)
-        $scope.saveImagesP()
-        sendDataPersonalDB(obj);
+      if (obj.nombre  != "" ) {
+        if (obj.fechaN != "2019-01-01" ) {
+          $scope.saveImagesP()
+          sendDataPersonalDB(obj);
+        } else {
+          alertify.set('notifier', 'position', 'top-right');
+        alertify.error('ocurrio un error,Ingresa tu verdadera fecha de nacimiento');
+        }
       } else {
         alertify.set('notifier', 'position', 'top-right');
         alertify.error('ocurrio un error,Todos los campos son obligatorios !');
@@ -136,11 +140,11 @@ $scope.enter=function ($event){
         alertify.success('Sus datos personales fueron guardados correctamente');
       },
       error: function (textStatus, err) {
-        // console.log( err);
-        if(textStatus.status == 500){
-          alertify.set('notifier', 'position', 'top-right');
-          alertify.error('Ocurrió un error, No se pueden guardar los datos el  número de identificación ya esta en uso');
-      }
+        console.log( err);
+      //   if(textStatus.status == 500){
+      //     alertify.set('notifier', 'position', 'top-right');
+      //     alertify.error('Ocurrió un error, No se pueden guardar los datos');
+      // }
     }
     });
   }
@@ -702,6 +706,7 @@ $scope.enter=function ($event){
   //                 DATA FOR UPDATE 
   /*###################################################### */
   function setDataPersonal(dataPersonal) {
+    // console.log(dataPersonal)
     $('#preview').hide();
     document.getElementById('nombre').value = dataPersonal[0].nombre;
     document.getElementById('telefono').value = dataPersonal[0].telefono;
