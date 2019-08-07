@@ -174,7 +174,7 @@ app.controller('ctrl-register-nanny', ['$scope', 'Dataservice','$http', function
 
   function sendEmailMessage(email) {
     var data = { email: email }
-    $http.post(UrlEmailConfirmation, data).then(function (response) {  
+    $http.post("/send-confirmation", data).then(function (response) {  
       console.log(response)
         alertify.set('notifier', 'position', 'top-right');
         alertify.success('se le ha enviado un mensage al correo!');
