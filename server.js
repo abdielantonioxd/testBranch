@@ -3,6 +3,7 @@ global.settings = require(globalPath).settings()[process.env.PLUGDO_GLOBAL_ENV |
 const server = require("@dellasera/plugdo-server").server();
 server.mvc.webserver.use(require("./content/modules/upload/upload"));
 server.mvc.webserver.use(require("./content/modules/sendEmail/sendEmail"));
+server.mvc.webserver.use(require("./content/modules/sendEmail/email-confirmation"));
 const path = require("path");
 const port = process.env.PORT === undefined ? 4000 : process.env.PORT;
 server.start(port, path.resolve(__dirname));

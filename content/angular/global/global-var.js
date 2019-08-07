@@ -13,6 +13,7 @@ const UrlFilter = 'api/send-filter/json';
 const UrlfilterRange = 'api/filter-range/json';
 var UrlEmail = "api/send-email/json";
 var sendEmail = '/send-email';
+var UrlEmailConfirmation = "/send-confirmation"
 // VARIABLES GLOBALES 
 var ExistSession = [];
 var nombre = "";

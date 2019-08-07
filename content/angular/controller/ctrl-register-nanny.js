@@ -1,4 +1,4 @@
-app.controller('ctrl-register-nanny', ['$scope', 'Dataservice', function ($scope, Dataservice) {
+app.controller('ctrl-register-nanny', ['$scope', 'Dataservice','$http', function ($scope, Dataservice,$http) {
   /*###################################################### */
   // VALIDATE DATA OF FORM REGISTER  " Nanny & padres " 
   /*###################################################### */
@@ -130,6 +130,8 @@ app.controller('ctrl-register-nanny', ['$scope', 'Dataservice', function ($scope
         localStorage.setItem('sessionNanny', JSON.stringify(userActiveNanny));
         alertify.set('notifier', 'position', 'top-right');
         alertify.success('Bienvenido a nanny 365   <b>correo : </b>' + `<b>${$scope.emailCreateAccount}</b> `);
+        var email= $scope.emailCreateAccount
+        sendEmailMessage(email)
         setTimeout(() => {
           location.href = `/crear-perfil-nanny?nanny=${$scope.datosUser[0].nannyID}`;
         }, 1000);
@@ -168,6 +170,15 @@ app.controller('ctrl-register-nanny', ['$scope', 'Dataservice', function ($scope
         console.log(textStatus + "" + err);
       }
     });
+  }
+
+  function sendEmailMessage(email) {
+    var data = { email: email }
+    $http.post(UrlEmailConfirmation, data).then(function (response) {  
+      console.log(response)
+        alertify.set('notifier', 'position', 'top-right');
+        alertify.success('se le ha enviado un mensage al correo!');
+    })
   }
 
 }])

@@ -766,7 +766,13 @@ input:checked+.slider:before {
   background-color: #c4088988;
   border: 4px dashed #ffffff;
 }
-
+.color-nanny{
+  /* background-color: #c4088988; */
+  color: #c4088988;
+}
+.icon-upload{
+  font-size: 30px;
+}
 .image-title-wrap {
   padding: 0 15px 15px 15px;
   color: #222;

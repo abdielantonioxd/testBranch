@@ -34,7 +34,7 @@ app.controller('ctrl-create-profile', ['$scope', 'Dataservice', function ($scope
   $scope.serviceEspecialTwo = Check_ServicesEspecialTwo;
   $scope.certificacion = ckeck_certificacionesOne;
   $scope.certificaionTwo = ckeck_certificacionesTwo;
-  $scope.Zonas = SearchZonas;
+  $scope.Zonas = SearchZonas.sort();
   $scope.Serv = servicesObj;
   $scope.sessionExist = JSON.parse(ExistSession);
   $scope.fechaNacimiento = "2019-01-01";
@@ -47,9 +47,9 @@ app.controller('ctrl-create-profile', ['$scope', 'Dataservice', function ($scope
   $scope.usersExistFacebook = UserFacebook;
   $scope.userExistGoogle = UserGoogle;
   $scope.userExistFather = UserFather;
-$scope.enter=function ($event){
-  console.log($event)
-}
+  $scope.enter = function ($event) {
+    console.log($event)
+  }
   /*###################################################### */
   //     VALIDACIÓN DE DATOS PERSONALES Y IMAGENES 
   /*###################################################### */
@@ -106,13 +106,13 @@ $scope.enter=function ($event){
       for (const i in form) {
         obj[form[i].name] = form[i].value;
       }
-      if (obj.nombre  != "" ) {
-        if (obj.fechaN != "2019-01-01" ) {
+      if (obj.nombre != "") {
+        if (obj.fechaN != "2019-01-01") {
           $scope.saveImagesP()
           sendDataPersonalDB(obj);
         } else {
           alertify.set('notifier', 'position', 'top-right');
-        alertify.error('ocurrio un error,Ingresa tu verdadera fecha de nacimiento');
+          alertify.error('ocurrio un error,Ingresa tu verdadera fecha de nacimiento');
         }
       } else {
         alertify.set('notifier', 'position', 'top-right');
@@ -135,17 +135,17 @@ $scope.enter=function ($event){
       timeout: 2000,
       data: obj,
       success: function (data) {
-          getData();
+        getData();
         alertify.set('notifier', 'position', 'top-right');
         alertify.success('Sus datos personales fueron guardados correctamente');
       },
       error: function (textStatus, err) {
-        console.log( err);
-      //   if(textStatus.status == 500){
-      //     alertify.set('notifier', 'position', 'top-right');
-      //     alertify.error('Ocurrió un error, No se pueden guardar los datos');
-      // }
-    }
+        console.log(err);
+        //   if(textStatus.status == 500){
+        //     alertify.set('notifier', 'position', 'top-right');
+        //     alertify.error('Ocurrió un error, No se pueden guardar los datos');
+        // }
+      }
     });
   }
   /*###################################################### */
@@ -462,13 +462,23 @@ $scope.enter=function ($event){
   /* =================================== 
          GET AND UPDATE VERIFICATION
       =================================== */
+  function messageAlert(ve) {
+    swal({
+      title: "Nanny365!",
+      text: "Esta opción no está disponible Contáctanos al “6498-2991” Para mas información ",
+      icon: "error",
+    });
+  document.getElementById(ve.id).checked = false ; 
+  }
   $scope.getverification = function (ce2) {
     verifi = ce2.name;
     if ($scope.verification[0] == "") {
       $scope.verification.splice(0, 1);
-      addVerificacion();
+      messageAlert(ce2);
+      // addVerificacion();
     } else {
-      addVerificacion();
+      messageAlert(ce2);
+      // addVerificacion();
     }
     function addVerificacion() {
       if ($scope.verification.length == 0) {
@@ -719,7 +729,7 @@ $scope.enter=function ($event){
       $scope.imagesID = false;
       document.getElementById("chamgeImagesID").src = "/public/images/" + $scope.Images;
     }
-   
+
     if (dataPersonal[0].numeroID != "") {
       $scope.identificationInput = false;
       $scope.validID = true;
@@ -1010,7 +1020,7 @@ $scope.enter=function ($event){
       } else {
         $scope.validID = true;
       }
-    } else {   
+    } else {
       $scope.validID = true;
 
 
