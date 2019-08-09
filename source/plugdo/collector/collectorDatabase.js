@@ -152,7 +152,7 @@ plugdo.collector("mysqlSendFilterRange", {
   server: objConnect,
   queryType: "stored-procedure",
   query: "call SP_filterRange",
-  parameter: ['json:post.dataOne', 'json:post.dataTwo', 'json:post.option']
+  parameter: ['json:post.dataOne', 'json:post.dataTwo', 'json:post.experience', 'json:post.option']
 });
 
 

@@ -32,11 +32,18 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   var listTempGroupYears = [];
   var listTemServicesEsp = [];
   var listTemZone = [];
+  var listRangeTemp=[];
+  var setRangeYearsOldMin = 18;
+  var setRangeYearsOldMax=80;
+  var setRangePricedMin=5;
+  var setRangePricedMax =100;
+  var exp= $scope.newExpe;
   var op = 10;
   /* PERSISTENCE OF OBJECTS   */
   var cookie_experience = cookie.get("experience-persistence");
   var group_pers = cookie.get("groupYearsOldNannys-persistence");
   var cookie_serviceEsp = cookie.get("servicesEspe-persistence");
+  var cookie_rangeYearsOld = cookie.get("rangeYearsOld-persistence");
   var cookie_zone = cookie.get("zone-persistence");
   /** ============================================================== */
   //                    SEARCH AND FILTER   NANNYS  
@@ -226,14 +233,14 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     $scope.limit = 4;
   }
 
-  function filterYearsOld() {
+  function filterYearsOld(setRangeYearsOldMin,setRangeYearsOldMax,exp) {
     var i = 0;
     var slider2 = new rSlider({
       target: '#yearsOld',
-      values: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 32, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
+      values: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 32, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80],
       step: 1,
       range: true,
-      set: [18, 90],
+      set: [setRangeYearsOldMin, setRangeYearsOldMax],
       tooltip: true,
       scale: true,
       labels: false,
@@ -241,11 +248,19 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       onChange: function (vals) {
         var objservicesE = vals;
         var yearsOld = objservicesE.split(",");
+        if (exp != "") {
+       
+        }else{
+          expe=0;
+        }
         var obj = {
           dataOne: 2019 - yearsOld[0],
           dataTwo: 2019 - yearsOld[1],
+          experience:$scope.newExpe,
           option: "Edad"
         }
+        cookie.set("rangeYearsOld-persistence", yearsOld, 1);
+        console.log(cookie_rangeYearsOld)
         if (i > 0) {
           $scope.filterRanges(obj)
         }
@@ -254,14 +269,14 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     });
   };
 
-  function filterPrice() {
+  function filterPrice(setRangePricedMin,setRangePricedMax,exp) {
     var p = 0;
     var slider3 = new rSlider({
       target: '#priceRange',
       values: [5, 10, 15, 20, 25, 30, 35, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
       step: 1,
       range: true,
-      set: [5, 100],
+      set: [setRangePricedMin, setRangePricedMax],
       tooltip: true,
       scale: true,
       labels: false,
@@ -272,9 +287,15 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
         $scope.viewTarifa = true;
         $scope.tarifa = range[0];
         $scope.tarifa2 = range[1];
+        if (exp != "") {
+       
+        }else{
+          expe= 0;
+        }
         var obj = {
           dataOne: range[0],
           dataTwo: range[1],
+          experience:exp,
           option: "Tarifa"
         }
         if (p > 0) {
@@ -501,6 +522,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   }
 
   $scope.loadPages(op);
-  filterYearsOld();
-  filterPrice();
+  filterYearsOld(setRangeYearsOldMin,setRangeYearsOldMax,exp);
+  filterPrice(setRangePricedMin,setRangePricedMax,exp);
 }])
