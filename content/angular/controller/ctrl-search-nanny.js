@@ -417,7 +417,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     })
     var obj = {
       data: group_pers,
-      experiencia: $scope.newExpe,
+      experiencia: $scope.persistence_expe,
       option: 'GruposE'
     };
     $scope.filterList(obj);
@@ -437,7 +437,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     })
     var obj = {
       data: cookie_serviceEsp,
-      experiencia: $scope.newExpe,
+      experiencia: $scope.persistence_expe,
       option: 'ServiciosEs'
     };
     $scope.filterList(obj);
@@ -457,7 +457,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     })
     var obj = {
       data: cookie_zone,
-      experiencia: $scope.newExpe,
+      experiencia:$scope.persistence_expe,
       option: 'Zonas'
     };
     $scope.filterList(obj)
@@ -467,7 +467,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   //       LOAD   PERSISTENCE OF DATA 
   /* ========================================= */
   setTimeout(() => {
-
     if (cookie_experience != "") {
       setPersistenceExp()
     }
