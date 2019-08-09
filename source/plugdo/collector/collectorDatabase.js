@@ -136,6 +136,16 @@ plugdo.collector("mysqlSendFilter", {
   // 'json:post.experienciaTwo','json:post.experienciathree','json:post.experienciafour','json:post.experienciaFive'
 });
 
+plugdo.collector("mysqlSendFilterList", {
+  type: "db",
+  action: "mysql",
+  server: objConnect,
+  queryType: "stored-procedure",
+  query: "call SP_filterNannyList",
+  parameter: ['json:post.data', 'json:post.experiencia', 'json:post.option']
+  // 'json:post.experienciaTwo','json:post.experienciathree','json:post.experienciafour','json:post.experienciaFive'
+});
+
 plugdo.collector("mysqlSendFilterRange", {
   type: "db",
   action: "mysql",

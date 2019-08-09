@@ -1,4 +1,5 @@
 app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function ($scope, Dataservice, $http) {
+  let { cookie } = plugdo;
   $scope.sessionExist = JSON.parse(ExistSession);
   $scope.zonas = SearchZonas;
   $scope.experience = Check_Experience;
@@ -23,6 +24,12 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   var oldValueGroup = "";
   var oldValuesServiceEsp = "";
   var oldValueZonas = "";
+  var listYearOldNanny = [];
+  var listServicesSpecial = [];
+  var listZonasNannys = []
+  $scope.oldValueGroupName = [];
+  var op = 10 ; 
+  $scope.numPagesselected = numPages ; 
   /** ============================================================== */
   //                    SEARCH AND FILTER   NANNYS  
   /** ============================================================== */
@@ -52,11 +59,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
         var obj = {
           data: '',
           experiencia: $scope.expe,
-          // experiencia: $scope.expe,
-          //   experienciaTwo:$scope.expe,
-          //   experienciathree: $scope.expe,
-          //   experienciafour: $scope.expe,
-          //   experienciaFive: $scope.expe,
           option: 'Experiencia'
         };
         oldValueExpe = experiencia.id;
@@ -64,10 +66,9 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       } else {
         var separador = $scope.experiencia.split(" ", 5);
         $scope.newExpe = separador[0];
+        // console.log(separador)
         oldValueExpe = experiencia.id;
         oldValueExpeOne.push(JSON.parse(separador[0]));
-        // console.log('datoOldValue : ' + oldValueExpe + " datoOldValueOne : " + oldValueExpeOne + " datoEntrante : " + $scope.newExpe)
-        var separadorData = oldValueExpeOne;
         var obj = {
           data: '',
           experiencia: $scope.newExpe,
@@ -81,51 +82,104 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       if (oldValueExpe == experiencia.id) {
         $scope.loadPages();
         document.getElementById(experiencia.id).checked = false;
-      } 
+      }
     }
 
   }
 
   $scope.getGroupYearsOld = function (getGroupYearsOld) {
+    listYearOldNanny.push(getGroupYearsOld.name)
     if (getGroupYearsOld.id != oldValueGroup) {
-      var obj = {
-        data: `%${getGroupYearsOld.name}%`,
-        experiencia: $scope.newExpe,
-        option: 'GruposE'
-      };
+      if (listYearOldNanny.length > 1) {
+        var obj = {
+          data: listYearOldNanny,
+          experiencia: $scope.newExpe,
+          option: 'GruposE'
+        };
+        $scope.filterList(obj)
+      } else {
+        var obj = {
+          data: `%${getGroupYearsOld.name}%`,
+          experiencia: $scope.newExpe,
+          option: 'GruposE'
+        };
+        $scope.filter(obj)
+      }
       oldValueGroup = getGroupYearsOld.id;
-      console.log(obj)
-      $scope.filter(obj)
+      if ($scope.oldValueGroupName.length === 0 ) {
+        $scope.push = true;
+      } else {
+         for (const i in $scope.oldValueGroupName) {
+        if (getGroupYearsOld.name === $scope.oldValueGroupName[i]) {
+         delete  $scope.oldValueGroupName[i]
+         console.log($scope.oldValueGroupName)
+         $scope.push = false;
+        }else{
+          $scope.push = true;
+        }
+      }
+      }
+     
+     if ( $scope.push ===  true) {
+      $scope.oldValueGroupName.push(getGroupYearsOld.name);
+     }else{
+      console.log($scope.oldValueGroupName)
+     }
+      // console.log($scope.oldValueGroupName)
     } else {
-      $scope.loadPages();
+      // $scope.loadPages();
     }
   }
 
   $scope.getServiceEspeciales = function (servEspeciales) {
+    listServicesSpecial.push(servEspeciales.name)
     if (servEspeciales.id != oldValuesServiceEsp) {
-      var obj = {
-        data: `%${servEspeciales.name}%`,
-        experiencia: $scope.newExpe,
-        option: 'ServiciosEs'
-      };
-      oldValuesServiceEsp = servEspeciales.id;
-      console.log(obj)
-      $scope.filter(obj)
+      if (listServicesSpecial.length > 1) {
+        var obj = {
+          data: listServicesSpecial,
+          experiencia: $scope.newExpe,
+          option: 'ServiciosEs'
+        };
+        oldValuesServiceEsp = servEspeciales.id;
+        $scope.filterList(obj)
+      } else {
+        var obj = {
+          data: `%${servEspeciales.name}%`,
+          experiencia: $scope.newExpe,
+          option: 'ServiciosEs'
+        };
+        oldValuesServiceEsp = servEspeciales.id;
+        $scope.filter(obj)
+      }
+
     } else {
       $scope.loadPages();
     }
   }
-
+  
+  /*================================================= */
+  //                  ZONAS PANAMA
+  /*================================================= */
   $scope.getZonas = function (zonas) {
+    listZonasNannys.push(zonas)
     if (zonas.id != oldValueZonas) {
-      var obj = {
-        data: `%${zonas.name}%`,
-        experiencia: $scope.newExpe,
-        option: 'Zonas'
-      };
-      oldValueZonas = zonas.id;
-      console.log(obj)
-      $scope.filter(obj)
+      if (listZonasNannys.length > 1) {
+        var obj = {
+          data: listZonasNannys,
+          experiencia: $scope.newExpe,
+          option: 'Zonas'
+        };
+        oldValueZonas = zonas.id;
+        $scope.filterList(obj)
+      } else {
+        var obj = {
+          data: `%${zonas.name}%`,
+          experiencia: $scope.newExpe,
+          option: 'Zonas'
+        };
+        oldValueZonas = zonas.id;
+        $scope.filter(obj)
+      }
     } else {
       document.getElementById(zonas.id).checked = false;
       $scope.loadPages();
@@ -139,6 +193,13 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     })
   }
 
+  $scope.filterList = function (obj) {
+    Dataservice.sendFilterList(obj.data, obj.experiencia, obj.option).then(function (data) {
+      var newDataNanny = data.data.result.Database[0].Table.Row[0];
+      showNewData(newDataNanny)
+    })
+  }
+
   function showNewData(newDataNanny) {
     $scope.$watch($scope.resultNanny = newDataNanny,
       $scope.result = newDataNanny.length
@@ -146,10 +207,11 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     alertify.set('notifier', 'position', 'top-right');
     alertify.success(`${$scope.result} Resultados de la busqueda `);
   }
-  /*================================================= */
-  //                  ZONAS PANAMA
-  /*================================================= */
 
+  
+  /*================================================= */
+  //                 RANGES TYPES
+  /*================================================= */
   $scope.limite = function () {
     $scope.hidelimit = true;
     $scope.hidelimitTo = false;
@@ -243,7 +305,47 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   /*###################################################### */
   //                  LOAD DATA PAGES 
   /*###################################################### */
-  $scope.loadPages = function () {
+  $scope.changePages = function (op){
+    var num = op.numPagesselected.selectedOption.num;
+    $scope.loadPages(num);
+  }
+
+  function pagination (op){
+    $scope.currentPage = 0;
+    $scope.pageSize = op;
+    $scope.pages = [];
+    $scope.pages.length = 0;
+    var ini = $scope.currentPage;
+    var fin = $scope.currentPage + 5;
+    if (ini < 1) {
+      ini = 1;
+      if (Math.ceil($scope.resultNannypagination.length / $scope.pageSize) > 5)
+        fin = 10;
+      else
+        fin = Math.ceil($scope.resultNannypagination.length / $scope.pageSize);
+    } else {
+      if (ini >= Math.ceil($scope.resultNannypagination.length / $scope.pageSize) - 10) {
+        ini = Math.ceil($scope.resultNannypagination.length / $scope.pageSize) - 10;
+        fin = Math.ceil($scope.resultNannypagination.length / $scope.pageSize);
+      }
+    }
+
+    if (ini < 1) ini = 6;
+    for (var i = ini; i <= fin; i++) {
+      $scope.pages.push({
+        num: i
+      });
+    }
+
+    if ($scope.currentPage >= $scope.pages.length) {
+      $scope.currentPage = $scope.pages.length - 1;
+    }
+    $scope.setPage = function (index) {
+      $scope.currentPage = index + 1;
+    };
+  }
+
+  $scope.loadPages = function (op) {
     Dataservice.selectNannys().then(function (response) {
       $scope.result = response.data.result.Database[0].Table.Row[0].length;
       $scope.resultNannypagination = response.data.result.Database[0].Table.Row[0];
@@ -266,117 +368,19 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       } else {
         console.log('empty')
       }
-      
-      $scope.currentPage = 0;
-      $scope.pageSize = 10;
-      $scope.pages = [];
-      $scope.pages.length = 0;
-      var ini = $scope.currentPage - 10;
-      var fin = $scope.currentPage + 10;
-      if (ini < 1) {
-        ini = 1;
-        if (Math.ceil($scope.resultNannypagination.length / $scope.pageSize) > 10)
-          fin = 5;
-        else
-          fin = Math.ceil($scope.resultNannypagination.length / $scope.pageSize);
-      } else {
-        if (ini >= Math.ceil($scope.resultNannypagination.length / $scope.pageSize) - 10) {
-          ini = Math.ceil($scope.resultNannypagination.length / $scope.pageSize) - 10;
-          fin = Math.ceil($scope.resultNannypagination.length / $scope.pageSize);
-        }
+      if (op === "") {
+        op = 10
       }
-      if (ini < 1) ini = 1;
-      for (var i = ini; i <= fin; i++) {
-        $scope.pages.push({
-          num: i
-        });
-      }
-
-      if ($scope.currentPage >= $scope.pages.length)
-        $scope.currentPage = $scope.pages.length - 1;
-
-      $scope.setPage = function (index) {
-        $scope.currentPage = index - 1;
-      };
+    pagination (op)
     })
   }
+
 
   /* ========================================= */
   //         DOBLE CLICK FUNCTION 
   /* ========================================= */
 
-  $scope.loadPages();
+  $scope.loadPages(op);
   filterYearsOld();
   filterPrice();
 }])
-
- // if (separadorData.length == 1) {
-        //           in _expeTwo varchar(20),
-        // in _expeThree varchar(20),
-        // in _expeFour varchar(20),
-        // in _expeFive varchar(20)
-        //   var obj = {
-        //     data: '',
-        //     experiencia: $scope.newExpe,
-        //     experienciaTwo: $scope.newExpe,
-        //     experienciathree: $scope.newExpe,
-        //     experienciafour: $scope.newExpe,
-        //     experienciaFive: $scope.newExpe,
-        //     option: 'Experiencia'
-        //   };
-        //   // console.log(obj)
-        // } else {
-        //   if (separadorData.length == 2) {
-        //     var obj = {
-        //       data: '',
-        //       experiencia: separadorData[0],
-        //       experienciaTwo: separadorData[1],
-        //       experienciathree: separadorData[0],
-        //       experienciafour: separadorData[0],
-        //       experienciaFive: separadorData[0],
-        //       option: 'Experiencia'
-        //     };
-        //     // console.log(obj)
-        //   } else {
-        //     if (separadorData.length == 3) {
-        //       var obj = {
-        //         data: '',
-        //         experiencia: separadorData[0],
-        //         experienciaTwo: separadorData[1],
-        //         experienciathree: separadorData[2],
-        //         experienciafour: separadorData[0],
-        //         experienciaFive:separadorData[0],
-        //         option: 'Experiencia'
-        //       };
-        //       // console.log(obj)
-        //     } else {
-        //       if (separadorData.length == 4) {
-        //         var obj = {
-        //           data: '',
-        //           experiencia: separadorData[0],
-        //           experienciaTwo: separadorData[1],
-        //           experienciathree: separadorData[2],
-        //           experienciafour: separadorData[3],
-        //           experienciaFive: separadorData[0],
-        //           option: 'Experiencia'
-        //         };
-        //         // console.log(obj)
-        //       } else {
-        //         if (separadorData.length == 5) {
-        //           var obj = {
-        //             data: '',
-        //             experiencia:separadorData[0],
-        //             experienciaTwo: separadorData[1],
-        //             experienciathree: separadorData[2],
-        //             experienciafour: separadorData[3],
-        //             experienciaFive: separadorData[4],
-        //             option: 'Experiencia'
-        //           };
-        //           // console.log(obj)
-        //         } else {
-
-        //         }
-        //       }
-        //     }
-        //   }
-        // }

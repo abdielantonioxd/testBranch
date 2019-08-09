@@ -22,7 +22,7 @@
                 aria-label="Recipient's username" aria-describedby="basic-addon2" ng-keyup="enter($event)">
               <div class="input-group-append">
                 <button type="button" class=" input-group btn btn-success btn-sm show-profile"
-                  ng-click="searchInput()" >Buscar</button>
+                  ng-click="searchInput()">Buscar</button>
               </div>
             </div>
           </div>
@@ -111,7 +111,8 @@
             ng-repeat="x in resultNanny | filter : search  | pagination: currentPage * pageSize | limitTo: pageSize ">
             <div class="gift row">
               <div class="gift__img col-sm-3 col-12">
-                <img class="img-thumbnail"  ng-src="/public/images/{{x.imagesP}}" onerror="this.src='/public/images/perfil.png'">
+                <img class="img-thumbnail" ng-src="/public/images/{{x.imagesP}}"
+                  onerror="this.src='/public/images/perfil.png'">
               </div>
               <div class="gift__info col-sm-9 col-12">
                 <h2 class="gift__name">{{x.nombre}} <br></h2>
@@ -155,16 +156,39 @@
             </div>
           </div>
           <!-- PAGINACIÓN  -->
-          <div class="d-flex justify-content-center">
-            <div class='btn-group d-flex'>
-              <button type='button' class='btn btn-warning' ng-disabled='currentPage == 0'
-                ng-click='currentPage = currentPage - 1'><i class="fa fa-backward"></i></button>
-              <button type='button' class='btn btn-warning' ng-disabled='currentPage == page.num - 1'
-                ng-click='setPage(page.num)' ng-repeat='page in pages'>{{page.num}}</button>
-              <button type='button' class='btn btn-warning' ng-disabled='currentPage >= resultNanny.length/pageSize - 1'
-                ng-click='currentPage = currentPage + 1'><i class="fa fa-forward"></i></button>
+          <div class="row">
+              <div class="col">
+                <div class="row d-flex justify-content-center">
+                <div class='btn-group d-flex'>
+                  <button type='button' class='btn btn-warning' ng-disabled='currentPage == 0'
+                    ng-click='currentPage = currentPage - 1'><i class="fa fa-backward"></i></button>
+
+                  <button type='button' class='btn btn-warning' ng-disabled='currentPage == page.num - 1'
+                    ng-click='setPage(page.num)' ng-repeat='page in pages'>{{page.num}}</button>
+
+                  <button type='button' class='btn btn-warning'
+                    ng-disabled='currentPage >= resultNanny.length/pageSize + 1'
+                    ng-click='currentPage = currentPage + 1'><i class="fa fa-forward"></i></button>
+                </div>
+               <label class="m-2"> Artículos por pagina :</label> 
+               <select 
+               ng-options="option.num for option in numPagesselected.pages track by option.id"
+               ng-model="numPagesselected.selectedOption" ng-change="changePages(this)">
+             </select>
+                <!-- <select  id="exampleFormControlSelect1" ng-model="pages" ng-change="changePages(this)">
+                    <option id="10">10</option>
+                    <option id="20">20</option>
+                    <option id="30">30</option>
+                    <option id="40">40</option>
+                    <option id="50">50</option>
+                  </select> -->
+              </div>
+              <div class="col">
+
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

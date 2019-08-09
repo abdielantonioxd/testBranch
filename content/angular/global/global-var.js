@@ -1,4 +1,5 @@
 // APIS 
+let { cookie } = plugdo;
 $('#hidePassword').hide();
 const UrlSendDatosUsers = 'api/send-dataUsers/json';
 const UrlDatosSocialNetwork = 'api/send-dataFacebook/json';
@@ -14,6 +15,8 @@ const UrlfilterRange = 'api/filter-range/json';
 var UrlEmail = "api/send-email/json";
 var sendEmail = '/send-email';
 var UrlEmailConfirmation = "/send-confirmation"
+var sessionData = cookie.get("dataNanny");
+// console.log(sessionData)
 // VARIABLES GLOBALES 
 var ExistSession = [];
 var nombre = "";
