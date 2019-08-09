@@ -1,5 +1,7 @@
 app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function ($scope, Dataservice, $http) {
-  let { cookie } = plugdo;
+  let {
+    cookie
+  } = plugdo;
   $scope.sessionExist = JSON.parse(ExistSession);
   $scope.zonas = SearchZonas;
   $scope.experience = Check_Experience;
@@ -28,8 +30,12 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   var listServicesSpecial = [];
   var listZonasNannys = []
   $scope.oldValueGroupName = [];
-  var op = 10 ; 
-  $scope.numPagesselected = numPages ; 
+  var op = 10;
+  $scope.numPagesselected = numPages;
+  /* PERSISTENCE OF OBJECTS   */
+  var experience_persistence = cookie.get("experience-persistence");
+  var groupYears_persistence = cookie.get("groupYears-persistence")
+  var groupYearsOldNannys_persistence = cookie.get("groupYearsOldNannys-persistence")
   /** ============================================================== */
   //                    SEARCH AND FILTER   NANNYS  
   /** ============================================================== */
@@ -55,26 +61,25 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     if (experiencia.id != oldValueExpe) {
       if ($scope.experiencia == 'Sin Experiencia') {
         $scope.expe = 0;
-        // console.log($scope.expe)
         var obj = {
           data: '',
           experiencia: $scope.expe,
           option: 'Experiencia'
         };
         oldValueExpe = experiencia.id;
+        cookie.set("experience-persistence", oldValueExpe, 1);
         $scope.filter(obj)
       } else {
         var separador = $scope.experiencia.split(" ", 5);
         $scope.newExpe = separador[0];
-        // console.log(separador)
         oldValueExpe = experiencia.id;
+        cookie.set("experience-persistence", experiencia.name, 1);
         oldValueExpeOne.push(JSON.parse(separador[0]));
         var obj = {
           data: '',
           experiencia: $scope.newExpe,
           option: 'Experiencia'
         };
-        console.log(obj)
         $scope.filter(obj)
       }
 
@@ -97,34 +102,36 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
           option: 'GruposE'
         };
         $scope.filterList(obj)
+        cookie.set("groupYearsOldNannys-persistence", listYearOldNanny, 1);
       } else {
         var obj = {
           data: `%${getGroupYearsOld.name}%`,
           experiencia: $scope.newExpe,
           option: 'GruposE'
         };
+        cookie.set("groupYears-persistence", getGroupYearsOld.name, 1);
         $scope.filter(obj)
       }
       oldValueGroup = getGroupYearsOld.id;
-      if ($scope.oldValueGroupName.length === 0 ) {
-        $scope.push = true;
+      // if ($scope.oldValueGroupName.length === 0) {
+      //   $scope.push = true;
+      // } else {
+      //   for (const i in $scope.oldValueGroupName) {
+      //     if (getGroupYearsOld.name === $scope.oldValueGroupName[i]) {
+      //       delete $scope.oldValueGroupName[i]
+      //       console.log($scope.oldValueGroupName)
+      //       $scope.push = false;
+      //     } else {
+      //       $scope.push = true;
+      //     }
+      //   }
+      // }
+
+      if ($scope.push === true) {
+        $scope.oldValueGroupName.push(getGroupYearsOld.name);
       } else {
-         for (const i in $scope.oldValueGroupName) {
-        if (getGroupYearsOld.name === $scope.oldValueGroupName[i]) {
-         delete  $scope.oldValueGroupName[i]
-         console.log($scope.oldValueGroupName)
-         $scope.push = false;
-        }else{
-          $scope.push = true;
-        }
+        console.log($scope.oldValueGroupName)
       }
-      }
-     
-     if ( $scope.push ===  true) {
-      $scope.oldValueGroupName.push(getGroupYearsOld.name);
-     }else{
-      console.log($scope.oldValueGroupName)
-     }
       // console.log($scope.oldValueGroupName)
     } else {
       // $scope.loadPages();
@@ -156,7 +163,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       $scope.loadPages();
     }
   }
-  
+
   /*================================================= */
   //                  ZONAS PANAMA
   /*================================================= */
@@ -208,7 +215,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     alertify.success(`${$scope.result} Resultados de la busqueda `);
   }
 
-  
+
   /*================================================= */
   //                 RANGES TYPES
   /*================================================= */
@@ -305,12 +312,12 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   /*###################################################### */
   //                  LOAD DATA PAGES 
   /*###################################################### */
-  $scope.changePages = function (op){
+  $scope.changePages = function (op) {
     var num = op.numPagesselected.selectedOption.num;
     $scope.loadPages(num);
   }
 
-  function pagination (op){
+  function pagination(op) {
     $scope.currentPage = 0;
     $scope.pageSize = op;
     $scope.pages = [];
@@ -371,14 +378,87 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       if (op === "") {
         op = 10
       }
-    pagination (op)
+      pagination(op)
     })
+
+  }
+  /* ========================================= */
+  //         PERSISTENCE OF DATA 
+  /* ========================================= */
+  function setPersistenceExp() {
+    if (experience_persistence != "") {
+      for (let i = 0; i < 5; i++) {
+        if (experience_persistence === $scope.experience[i].name) {
+          document.getElementById($scope.experience[i].id).checked = true;
+          var separador = experience_persistence.split(" ", 5);
+          $scope.persistence_expe = separador[0];
+          var obj = {
+            data: '',
+            experiencia: $scope.persistence_expe,
+            option: 'Experiencia'
+          };
+          $scope.filter(obj)
+        }
+      }
+    } else {
+      console.log('empty')
+    }
   }
 
+  function persistenceGroupOfYearsNannysOnlyOne() {
+    if (groupYears_persistence != "") {
+      for (let i = 0; i < 5; i++) {
+        if (groupYears_persistence === $scope.services[i].name) {
+          document.getElementById($scope.services[i].id).checked = true;
+          $scope.persistence_yearsG = groupYears_persistence;
+          var obj = {
+            data: `%${groupYears_persistence}%`,
+            experiencia: $scope.persistence_expe,
+            option: 'GruposE'
+          };
+          console.log(obj)
+          $scope.filter(obj)
+        }
+      }
+    } else {
+      console.log('empty')
+    }
+  }
 
-  /* ========================================= */
-  //         DOBLE CLICK FUNCTION 
-  /* ========================================= */
+  function persistenceGroupOfYearsNannys() {
+    if (groupYearsOldNannys_persistence != "") {
+      $scope.groupYearsNannyArray = groupYearsOldNannys_persistence.split(",", 9);
+      $scope.groupYears = $scope.groupYearsNannyArray;
+      $.each($scope.groupYears, function (i, v) {
+        var gruposE = $scope.services;
+        $.each(gruposE, function (l, s) {
+          if (v == s.name) {
+            var id = s.id
+            document.getElementById(id).checked = true;
+          }
+        })
+      })
+    } else {
+      console.log('empty')
+    }
+  }
+  setTimeout(() => {
+    setPersistenceExp()
+    if (groupYearsOldNannys_persistence != "") {
+      persistenceGroupOfYearsNannys()
+    } else {
+      persistenceGroupOfYearsNannysOnlyOne();
+    }
+
+  }, 100);
+
+
+  $scope.deletecookie = function () {
+    cookie.delete("experience-persistence");
+    cookie.delete("groupYears-persistence");
+    cookie.delete("groupYearsOldNannys-persistence")
+    location.href = "/busqueda-de-nanny"
+  }
 
   $scope.loadPages(op);
   filterYearsOld();
