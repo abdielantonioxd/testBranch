@@ -102,20 +102,10 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     $scope.filterList(obj)
   }
 
-  function deleteGroupExist(getGroupYearsOld){
-    $.each($scope.groupYears , function (s, v) {
-      if (v == getGroupYearsOld.name) {
-        listYearOldNanny.splice(s, 1);
-        // console.log(listYearOldNanny)
-        // $scope.deleteZo.push($scope.zonas.splice(s, 1));
-      } else {
-        // $scope.zonas.push(desplazamiento)
-      }  
-    })
-   }
+
   $scope.getGroupYearsOld = function (getGroupYearsOld) {
     if (listTempGroupYears != "") {
-      listTempGroupYears.push(getGroupYearsOld.name);
+      listYearOldNanny.push(listTempGroupYears);
     }
     if (getGroupYearsOld.id != oldValueGroup) {
       listYearOldNanny.push(getGroupYearsOld.name);
