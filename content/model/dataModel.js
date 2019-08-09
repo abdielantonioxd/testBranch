@@ -177,20 +177,27 @@ var ckeck_certificacionesTwo = [{
 
 var SearchZonas = [{
   id: 1,
-  name: "24 de Diciembre",
-
-},
-{
-  id: 2,
   name: "Alcalde Díaz"
 },
 {
-  id: 3,
+  id: 2,
   name: "Ancón"
+},
+{
+  id: 33,
+  name: 'Arraiján'
+},
+{
+  id: 30,
+  name: 'Area Bancaria'
 },
 {
   id: 4,
   name: "Betania"
+},
+{
+  id: 32,
+  name: 'Balboa'
 },
 {
   id: 5,
@@ -215,6 +222,37 @@ var SearchZonas = [{
 {
   id: 10,
   name: "Curundú"
+}, {
+  id: 39,
+  name: 'Cocoli'
+}, {
+  id: 40,
+  name: 'Condado del Rey'
+},
+{
+  id: 41,
+  name: 'Costa del Este'
+},
+{
+  id: 31,
+  name: 'Casco Antiguo'
+},
+{
+  id: 34,
+  name: 'Cerro Viento'
+}, {
+  id: 35,
+  name: 'Ciudad del Saber'
+},
+{
+  id: 36,
+  name: 'Clayton'
+}, {
+  id: 37,
+  name: 'Chanis'
+}, {
+  id: 38,
+  name: 'Coco del Mar'
 }, {
   id: 11,
   name: "Via Argentina"
@@ -291,46 +329,6 @@ var SearchZonas = [{
   name: "Tocumen"
 },
 {
-  id: 30,
-  name: 'Area Bancaria'
-}, {
-  id: 31,
-  name: 'Casco Antiguo'
-}, {
-  id: 32,
-  name: 'Balboa'
-}, {
-  id: 33,
-  name: 'Arraiján'
-},
-{
-  id: 34,
-  name: 'Cerro Viento'
-}, {
-  id: 35,
-  name: 'Ciudad del Saber'
-},
-{
-  id: 36,
-  name: 'Clayton'
-}, {
-  id: 37,
-  name: 'Chanis'
-}, {
-  id: 38,
-  name: 'Coco del Mar'
-},
-{
-  id: 39,
-  name: 'Cocoli'
-}, {
-  id: 40,
-  name: 'Condado del Rey'
-},
-{
-  id: 41,
-  name: 'Costa del Este'
-}, {
   id: 42,
   name: 'Diablo'
 }, {
@@ -345,6 +343,9 @@ var SearchZonas = [{
   id: 45,
   name: 'El Dorado'
 }, {
+  id: 123,
+  name: 'Hato Pintado'
+}, {
   id: 46,
   name: 'Isla Taboga'
 }, {
@@ -358,9 +359,6 @@ var SearchZonas = [{
   name: 'Las Cumbres'
 },
 {
-  id: 123,
-  name: 'Hato Pintado'
-}, {
   id: 987,
   name: 'La Alameda'
 }, {
@@ -449,7 +447,33 @@ var UbicationObject = {
     name: 'Provincias'
   }
 }
+var numPages= {
+  pages: [{
+    id: '0',
+    num: 10
+  }, {
+    id: '1',
+    num: 20
+  }, {
+    id: '2',
+    num: 30
+  }, {
+    id: '3',
+    num: 40
+  }, {
+    id: '4',
+    num: 50
+  }, {
+    id: '5',
+    num: 60
+  }
 
+  ],
+  selectedOption: {
+    id: '0',
+    num: 10
+  }
+}
 
 // model disytrict 
 var districtObject = {

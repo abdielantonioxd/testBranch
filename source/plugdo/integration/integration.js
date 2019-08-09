@@ -184,6 +184,20 @@ plugdo.integration("send-filter", (message, send) => {
   });
 })
 
+plugdo.integration("send-filterlist", (message, send) => {
+  let response = {};
+  // console.log(message)
+  plugdo.collect("mysqlSendFilterList").get(message, (data, err) => {
+    if (err) {
+      send({}, err);
+    } else {
+      response.result = data;
+      send(response);
+    }
+  });
+})
+
+
 plugdo.integration("filter-range", (message, send) => {
   let response = {};
   // console.log(message)
