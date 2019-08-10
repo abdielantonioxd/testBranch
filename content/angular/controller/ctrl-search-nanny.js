@@ -20,7 +20,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   $scope.certifify = true;
   $scope.verify = true;
   $scope.limit = 4;
-  $scope.newExpe = 5;
+  $scope.newExpe = 0;
   $scope.experiencia = "";
   var oldValueExpe = "";
   var oldValueGroup = "";
@@ -32,19 +32,20 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   var listTempGroupYears = [];
   var listTemServicesEsp = [];
   var listTemZone = [];
-  var listRangeTemp=[];
   var setRangeYearsOldMin = 18;
-  var setRangeYearsOldMax=80;
-  var setRangePricedMin=5;
-  var setRangePricedMax =100;
-  var exp= $scope.newExpe;
+  var setRangeYearsOldMax = 80;
+  var setRangePricedMin = 5;
+  var setRangePricedMax = 100;
+  var exp = $scope.newExpe;
   var op = 10;
   /* PERSISTENCE OF OBJECTS   */
   var cookie_experience = cookie.get("experience-persistence");
   var group_pers = cookie.get("groupYearsOldNannys-persistence");
   var cookie_serviceEsp = cookie.get("servicesEspe-persistence");
-  var cookie_rangeYearsOld = cookie.get("rangeYearsOld-persistence");
   var cookie_zone = cookie.get("zone-persistence");
+  var cookie_rangeYearsOld = cookie.get("rangeYearsOld-persistence");
+  var cookie_rangePrice = cookie.get("rangePrice-persistence");
+
   /** ============================================================== */
   //                    SEARCH AND FILTER   NANNYS  
   /** ============================================================== */
@@ -66,7 +67,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
 
   $scope.experiencias = function (experiencia) {
     $scope.experiencia = experiencia.name;
-    // console.log($scope.experiencia)
     if (experiencia.id != oldValueExpe) {
       if ($scope.experiencia == 'Sin Experiencia') {
         $scope.expe = 0;
@@ -82,6 +82,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
         var separador = $scope.experiencia.split(" ", 5);
         $scope.newExpe = separador[0];
         oldValueExpe = experiencia.id;
+        console.log($scope.newExpe)
         cookie.set("experience-persistence", experiencia.name, 1);
         var obj = {
           data: '',
@@ -121,10 +122,11 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
         filterListYearsOld()
       } else {
         var obj = {
-          data: `%${getGroupYearsOld.name}%`,
+          data: `%${listYearOldNanny}%`,
           experiencia: $scope.newExpe,
           option: 'GruposE'
         };
+        console.log(listYearOldNanny)
         $scope.filter(obj)
       }
       oldValueGroup = getGroupYearsOld.id;
@@ -167,6 +169,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   //                  ZONAS PANAMA
   /*================================================= */
   $scope.getZonas = function (zonas) {
+    console.log($scope.newExpe)
     if (listTemZone != "") {
       listZonasNannys.push(listTemZone)
     }
@@ -233,7 +236,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     $scope.limit = 4;
   }
 
-  function filterYearsOld(setRangeYearsOldMin,setRangeYearsOldMax,exp) {
+  function filterYearsOld(setRangeYearsOldMin, setRangeYearsOldMax, exp) {
     var i = 0;
     var slider2 = new rSlider({
       target: '#yearsOld',
@@ -248,19 +251,25 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       onChange: function (vals) {
         var objservicesE = vals;
         var yearsOld = objservicesE.split(",");
-        if (exp != "") {
-       
-        }else{
-          expe=0;
+        if (cookie_experience != "") {
+          var experi = cookie_experience;
+          var separador = experi.split(" ", 5);
+          exp = separador[0];
+        } else {
+          if ($scope.newExpe != "") {
+            exp = $scope.newExpe;
+          } else {
+            exp = 0;
+          }
         }
+
         var obj = {
           dataOne: 2019 - yearsOld[0],
           dataTwo: 2019 - yearsOld[1],
-          experience:$scope.newExpe,
+          experience: exp,
           option: "Edad"
         }
         cookie.set("rangeYearsOld-persistence", yearsOld, 1);
-        console.log(cookie_rangeYearsOld)
         if (i > 0) {
           $scope.filterRanges(obj)
         }
@@ -269,7 +278,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     });
   };
 
-  function filterPrice(setRangePricedMin,setRangePricedMax,exp) {
+  function filterPrice(setRangePricedMin, setRangePricedMax, exp) {
     var p = 0;
     var slider3 = new rSlider({
       target: '#priceRange',
@@ -287,17 +296,24 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
         $scope.viewTarifa = true;
         $scope.tarifa = range[0];
         $scope.tarifa2 = range[1];
-        if (exp != "") {
-       
-        }else{
-          expe= 0;
+        if (cookie_experience != "") {
+          var experi = cookie_experience;
+          var separador = experi.split(" ", 5);
+          exp = separador[0];
+        } else {
+          if ($scope.newExpe != "") {
+            exp = $scope.newExpe;
+          } else {
+            exp = 0;
+          }
         }
         var obj = {
           dataOne: range[0],
           dataTwo: range[1],
-          experience:exp,
+          experience: exp,
           option: "Tarifa"
         }
+        cookie.set("rangePrice-persistence", range, 1);
         if (p > 0) {
           $scope.filterRanges(obj)
         }
@@ -436,9 +452,18 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
         }
       })
     })
+    if ($scope.persistence_expe != undefined ) {
+      if ( $scope.persistence_expe != " " ) {
+       exp = $scope.persistence_expe;
+      }else{
+       exp = 0
+      }
+     } else {
+       exp = 0
+     }
     var obj = {
       data: group_pers,
-      experiencia: $scope.persistence_expe,
+      experiencia: exp,
       option: 'GruposE'
     };
     $scope.filterList(obj);
@@ -456,9 +481,18 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
         }
       })
     })
+    if ($scope.persistence_expe != undefined ) {
+     if ( $scope.persistence_expe != " " ) {
+      exp = $scope.persistence_expe;
+     }else{
+      exp = 0
+     }
+    } else {
+      exp = 0
+    }
     var obj = {
       data: cookie_serviceEsp,
-      experiencia: $scope.persistence_expe,
+      experiencia: exp,
       option: 'ServiciosEs'
     };
     $scope.filterList(obj);
@@ -476,14 +510,51 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
         }
       })
     })
+    if ($scope.persistence_expe != undefined ) {
+      if ( $scope.persistence_expe != " " ) {
+       exp = $scope.persistence_expe;
+      }else{
+       exp = 0
+      }
+     } else {
+       exp = 0
+     }
     var obj = {
       data: cookie_zone,
-      experiencia:$scope.persistence_expe,
+      experiencia: exp,
       option: 'Zonas'
     };
     $scope.filterList(obj)
   }
 
+  function persistenceRangeYearsOld() {
+    var yearsOld = cookie_rangeYearsOld.split(",");
+    setRangeYearsOldMin = yearsOld[0];
+    setRangeYearsOldMax = yearsOld[1];
+    if ($scope.persistence_expe != " ") {
+      exp = $scope.persistence_expe;
+    } else {
+      exp = 0
+    }
+    intMin = parseInt(setRangeYearsOldMin, 10)
+    intMax = parseInt(setRangeYearsOldMax, 10)
+    filterYearsOld(intMin, intMax, exp)
+  }
+
+  function persistenceRangePrice() {
+    var range = cookie_rangePrice.split(",");
+    setRangePricedMin = range[0];
+    setRangePricedMax = range[1];
+    intMin = parseInt(setRangePricedMin, 10)
+    intMax = parseInt(setRangePricedMax, 10)
+    if ($scope.persistence_expe != " ") {
+      exp = $scope.persistence_expe;
+    } else {
+      exp = 0
+    }
+    filterPrice(intMin, intMax, exp);
+
+  }
   /* ========================================= */
   //       LOAD   PERSISTENCE OF DATA 
   /* ========================================= */
@@ -508,6 +579,17 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       persistenceZone();
     }
 
+    if (cookie_rangeYearsOld != "") {
+      persistenceRangeYearsOld()
+    } else {
+      filterYearsOld(setRangeYearsOldMin, setRangeYearsOldMax, exp);
+    }
+
+    if (cookie_rangePrice != "") {
+      persistenceRangePrice();
+    } else {
+      filterPrice(setRangePricedMin, setRangePricedMax, exp);
+    }
   }, 100);
 
   /* ========================================= */
@@ -518,10 +600,10 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     cookie.delete("groupYearsOldNannys-persistence");
     cookie.delete("servicesEspe-persistence");
     cookie.delete("zone-persistence")
+    cookie.delete("rangeYearsOld-persistence");
+    cookie.delete("rangePrice-persistence");
     location.href = "/busqueda-de-nanny"
   }
 
   $scope.loadPages(op);
-  filterYearsOld(setRangeYearsOldMin,setRangeYearsOldMax,exp);
-  filterPrice(setRangePricedMin,setRangePricedMax,exp);
 }])
