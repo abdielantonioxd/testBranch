@@ -3,7 +3,8 @@ app.factory("Dataservice", function ($http) {
   const getnanny = 'api/get-data/json';
   const disponibilidadNanny = 'api/get-disponibilidad/json';
   const UrlFilter = 'api/send-filter/json';
-  const UrlFilterList ='api/send-filterlist/json'
+  const UrlFilterList ='api/send-filterlist/json';
+  const UrlFilterAll = 'api/filter-all/json';
   var Dataservice = {
     GetFilter: function () {
       var loc = document.URL;
@@ -42,6 +43,11 @@ app.factory("Dataservice", function ($http) {
     },
     sendFilterList: function (data,experiencia, option) {
       return $http.post(UrlFilterList, { data: data, option: option,experiencia:experiencia}).then(function (data) {
+        return data
+      })
+
+    },   sendFilterAll: function (groupMin,groupMax,groupEdad,serv_esp,tarifaMin,tarifaMax,zonas,experiencia,option) {
+      return $http.post(UrlFilterAll, { groupMin:groupMin,groupMax:groupMax,groupEdad:groupEdad,serv_esp:serv_esp,tarifaMin:tarifaMin,tarifaMax:tarifaMax,zonas:zonas,experiencia:experiencia,option:option}).then(function (data) {
         return data
       })
 

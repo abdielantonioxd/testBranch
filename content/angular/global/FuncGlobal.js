@@ -7,6 +7,8 @@ var NameUser = JSON.parse(UserNanny)
 var loginNanny;
 if (UserNanny != null) {
   sesionActive = true;
+
+logoutSesionInteracting()
 }
 function logoutSesionInteracting() {
   var limitTime = 10 * 60000;
@@ -18,7 +20,7 @@ function logoutSesionInteracting() {
   function logout() {
     localStorage.clear();
     alertify.set('notifier', 'position', 'top-left');
-    alertify.notify('se agoto el tiempo de inactividad  para el Usuario ' + NameUser[0].nameUser);
+    alertify.notify('se agoto el tiempo de inactividad, vuelva a ingresar su session ');
     setTimeout(() => {
       window.location.reload();
     }, 2000)
@@ -107,4 +109,3 @@ function countCharsOthersAdi(obj) {
     document.getElementById("serviceOthersAdi").innerHTML = `<b> (Máximo 30 caracteres)</b> caracteres restantes ${charRemain}`;
   }
 }
-

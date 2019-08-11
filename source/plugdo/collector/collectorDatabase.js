@@ -136,6 +136,16 @@ plugdo.collector("mysqlSendFilter", {
   // 'json:post.experienciaTwo','json:post.experienciathree','json:post.experienciafour','json:post.experienciaFive'
 });
 
+plugdo.collector("FilterExperience", {
+  type: "db",
+  action: "mysql",
+  server: objConnect,
+  queryType: "stored-procedure",
+  query: "call SP_filterExperience",
+  parameter: ['json:post.groupMin','json:post.groupMax','json:post.groupEdad','json:post.serv_esp','json:post.tarifaMin','json:post.tarifaMax','json:post.zonas', 'json:post.experiencia', 'json:post.option']
+  // 'json:post.experienciaTwo','json:post.experienciathree','json:post.experienciafour','json:post.experienciaFive'
+});
+
 plugdo.collector("mysqlSendFilterList", {
   type: "db",
   action: "mysql",

@@ -197,6 +197,18 @@ plugdo.integration("send-filterlist", (message, send) => {
   });
 })
 
+plugdo.integration("filter-all", (message, send) => {
+  let response = {};
+  // console.log(message)
+  plugdo.collect("FilterExperience").get(message, (data, err) => {
+    if (err) {
+      send({}, err);
+    } else {
+      response.result = data;
+      send(response);
+    }
+  });
+})
 
 plugdo.integration("filter-range", (message, send) => {
   let response = {};
