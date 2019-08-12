@@ -223,10 +223,12 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
 
   function showNewData(newDataNanny) {
     $scope.$watch($scope.resultNanny = newDataNanny,
-      $scope.result = newDataNanny.length
+      $scope.result = newDataNanny.length  
     )
     alertify.set('notifier', 'position', 'top-right');
     alertify.success(`${$scope.result} Resultados de la busqueda `);
+    var numPages =  $scope.result 
+    pagination(numPages)
   }
 
 
@@ -372,27 +374,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     $scope.loadPages(num);
   }
 
-  function pagination(op) {
-    $scope.viewby = op;
-    $scope.totalItems = $scope.resultNanny.length;
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = $scope.viewby;
-    $scope.maxSize = 5; //Number of pager buttons to show
-
-    $scope.setPage = function (pageNo) {
-      $scope.currentPage = pageNo;
-    };
-
-    $scope.pageChanged = function () {
-      console.log('Page changed to: ' + $scope.currentPage);
-    };
-
-    $scope.setItemsPerPage = function (num) {
-      console.log(num)
-      $scope.itemsPerPage = num;
-      $scope.currentPage = 1; //reset to first page
-    }
-  }
 
   $scope.loadPages = function (op) {
     Dataservice.selectNannys().then(function (response) {
@@ -420,11 +401,33 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       if (op === "") {
         op = 10
       }
+     
       pagination(op)
     })
 
   }
 
+  function pagination (op){
+    $scope.viewby = op;
+    $scope.totalItems = $scope.resultNanny.length;
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = $scope.viewby;
+    $scope.maxSize = 5; 
+
+    $scope.setPage = function (pageNo) {
+      $scope.currentPage = pageNo;
+    };
+
+    $scope.pageChanged = function () {
+      console.log('Page changed to: ' + $scope.currentPage);
+    };
+
+    $scope.setItemsPerPage = function (num) {
+      console.log(num)
+      $scope.itemsPerPage = num;
+      $scope.currentPage = 1; //reset to first page
+    }
+  }
   /* ========================================= */
   //         PERSISTENCE OF DATA 
   /* ========================================= */
