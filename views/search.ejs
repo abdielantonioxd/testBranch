@@ -4,107 +4,173 @@
 <%include partials/head/headSearch%>
 
 <body ng-cloak>
+  <style>
+    /* ----------- dispositivos móviles ----------- */
+    /* cambios css para modo vertical y horizontal */
+    @media only screen and (min-width: 320px) and (max-width: 736px) {
+      .overlay {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #ffffff;
+        background-color: #ffffff;
+        overflow-x: hidden;
+        transition: 0.5s;
+      }
 
+      .overlay-content {
+        /* position: relative; */
+        top: 25%;
+        width: 100%
+      }
+
+      .overlay a {
+        padding: 8px;
+        text-decoration: none;
+        font-size: 36px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+      }
+
+      .overlay a:hover,
+      .overlay a:focus {
+        color: #f1f1f1;
+      }
+
+      .overlay .closebtn {
+        position: absolute;
+        /* top: 20px; */
+        right: 34px;
+        font-size: 54px;
+      }
+    }
+
+    @media screen and (max-height: 450px) {
+      .overlay a {
+        font-size: 20px
+      }
+
+      .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+      }
+    }
+  </style>
   <% include partials/header/header%>
   <div ng-controller="ctrl-search-nanny">
     <div class="container">
       <div class="row">
-        <!-- BUSCADOR  -->
-        <!-- d-none d-sm-none d-md-block -->
-        <div class=" col-sm-8 col-md-3 border-rigth mt-3 ">
-          <h5 class="text-center mt-2">Búsqueda de Nanny</h5>
-          <!-- <h4 class="text-center mt-3" style="color: #a92a82;">Buscador</h4> -->
-          <!-- seacrh imput -->
-          <div class="input-group input-group-sm mb-3 mt-3">
-            <!-- <input type="text" class="form-control mt-2" aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm" placeholder="Búsqueda de nanny" ng-model="search"
-              autocomplete="off"> -->
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" id="searchInp" placeholder="Búsqueda de nanny"
-                aria-label="Recipient's username" aria-describedby="basic-addon2" ng-keyup="enter($event)">
-              <div class="input-group-append">
-                <button type="button" class=" input-group btn btn-success btn-sm show-profile"
-                  ng-click="searchInput()">Buscar</button>
+        <!-- BUSCADOR AND FILTER   -->
+          <div class=" col-sm-8 col-md-3 border-rigth mt-3 ">
+             
+            <h5 class="text-center mt-2">Búsqueda de Nanny</h5>
+            <!-- <h4 class="text-center mt-3" style="color: #a92a82;">Buscador</h4> -->
+            <!-- seacrh imput -->
+            <div class="input-group input-group-sm mb-3 mt-3">
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" id="searchInp" placeholder="Búsqueda de nanny"
+                  aria-label="Recipient's username" aria-describedby="basic-addon2" ng-keyup="enter($event)">
+                <div class="input-group-append">
+                  <button type="button" class=" input-group btn btn-success btn-sm show-profile"
+                    ng-click="searchInput()">Buscar</button>
+                </div>
+                <button type="button" class=" mt-2 input-group btn btn-success btn-sm show-profile"
+                  ng-click="deletecookie()">Eliminar historial de búsqueda</button>
               </div>
-              <button type="button" class=" mt-2 input-group btn btn-success btn-sm show-profile"
-                ng-click="deletecookie()">Eliminar historial de búsqueda</button>
+            </div>
+
+            <!-- search experiencia -->
+            <div class="form-group mt-2">
+              <h6>Experiencia</h6>
+              <hr>
+              <div class="mt-3" ng-repeat="e in experience">
+                <label class="color-check container-check-search dbl" for="{{e.id}}"> {{e.name}}
+                  <input type="radio" name="experiencia" id="{{e.id}}" value="{{e.name}}" ng-model="e.isChecked"
+                    ng-click="experiencias(this.e)" ng-dblclick="dblClick()">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+            </div>
+            <!-- search edad -->
+            <div class="form-group mt-5">
+              <h6>Edad de la nanny</h6>
+              <hr>
+              <div class="container pt-3">
+                <input type="text" id="yearsOld" class="slider" />
+              </div>
+            </div>
+            <!-- search grupos de edades  -->
+            <div class="form-group mt-5">
+              <h6>Grupos de Edad</h6>
+              <hr>
+              <div class="mt-3" ng-repeat="grup in services">
+                <label class="color-check container-check-search dbl" for="{{grup.id}}"> {{grup.name}}
+                  <input type="checkbox" id="{{grup.id}}" value="{{grup.name}}" ng-model="grup.isChecked"
+                    ng-click="getGroupYearsOld(this.grup)" ng-dblclick="loadPages()">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+            </div>
+            <!-- search servicios especiales  -->
+            <div class="form-group">
+              <h6 class="mt-4">Servicios Especiales</h6>
+              <hr>
+              <div class="mt-3" ng-repeat="serv in serviceEspecialTwo">
+                <label class="color-check container-check-search dbl" for="{{serv.id}}"> {{serv.name}}
+                  <input type="checkbox" id="{{serv.id}}" value="{{serv.name}}" ng-model="serv.isChecked"
+                    ng-click="getServiceEspeciales(this.serv)" ng-dblclick="loadPages()">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+            </div>
+            <!-- search tarifa maxima  -->
+            <div class="form-group mt-4">
+              <h6>Tarifa máxima por hora <span class="badge badge-warning" ng-show="viewTarifa"> de
+                  {{tarifa | currency}}
+                  hasta {{tarifa2 | currency}} </span> </h6>
+              <hr>
+              <div class="container pt-3">
+                <input type="text" id="priceRange" class="slider" />
+              </div>
+            </div>
+            <!-- search zonas  -->
+            <div class="form-group mt-3">
+              <h6>Zonas donde presta servicio</h6>
+              <hr>
+              <div class="content hideContent mt-1 " ng-repeat="z in Zonas | limitTo :limit ">
+                <label class="color-check container-check-search dbl" for="{{z.id}}" style="font-size: 14px;">
+                  {{z.name}}
+                  <input type="radio" id="{{z.id}}" value="{{z.name}}" ng-model="z.isChecked"
+                    ng-click="getZonas(this.z)" ng-dblclick="loadPages()">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div>
+                <label class="color-label text-danger" ng-click="limite()" ng-hide="hidelimit"> + Ver más </label>
+                <label class="color-label text-danger" ng-click="limitTo()" ng-hide="hidelimitTo"> - Ver menos </label>
+              </div>
             </div>
           </div>
-          <!-- search experiencia -->
-          <div class="form-group mt-2">
-            <h6>Experiencia</h6>
-            <hr>
-            <div class="mt-3" ng-repeat="e in experience">
-              <label class="color-check container-check-search dbl" for="{{e.id}}"> {{e.name}}
-                <input type="radio" name="experiencia" id="{{e.id}}" value="{{e.name}}" ng-model="e.isChecked"
-                  ng-click="experiencias(this.e)" ng-dblclick="dblClick()">
-                <span class="checkmark"></span>
-              </label>
+
+        <!-- BUTTON FILTER FOR MOVILE -->
+        <!-- <div class="container  d-block d-sm-block d-md-none">
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-8">
+
+              <button type="button" class=" mt-3  btn btn-filter btn-block" onclick="openNav()">Filtrar Niñeras <i
+                  class="mt-1 fa fa-chevron-right float-right" aria-hidden="true"></i></button>
             </div>
           </div>
-          <!-- search edad -->
-          <div class="form-group mt-5">
-            <h6>Edad de la nanny</h6>
-            <hr>
-            <div class="container pt-3">
-              <input type="text" id="yearsOld" class="slider" />
-            </div>
-          </div>
-          <!-- search grupos de edades  -->
-          <div class="form-group mt-5">
-            <h6>Grupos de Edad</h6>
-            <hr>
-            <div class="mt-3" ng-repeat="grup in services">
-              <label class="color-check container-check-search dbl" for="{{grup.id}}"> {{grup.name}}
-                <input type="checkbox" id="{{grup.id}}" value="{{grup.name}}" ng-model="grup.isChecked"
-                  ng-click="getGroupYearsOld(this.grup)" ng-dblclick="loadPages()">
-                <span class="checkmark"></span>
-              </label>
-            </div>
-          </div>
-          <!-- search servicios especiales  -->
-          <div class="form-group">
-            <h6 class="mt-4">Servicios Especiales</h6>
-            <hr>
-            <div class="mt-3" ng-repeat="serv in serviceEspecialTwo">
-              <label class="color-check container-check-search dbl" for="{{serv.id}}"> {{serv.name}}
-                <input type="checkbox" id="{{serv.id}}" value="{{serv.name}}" ng-model="serv.isChecked"
-                  ng-click="getServiceEspeciales(this.serv)" ng-dblclick="loadPages()">
-                <span class="checkmark"></span>
-              </label>
-            </div>
-          </div>
-          <!-- search tarifa maxima  -->
-          <div class="form-group mt-4">
-            <h6>Tarifa máxima por hora <span class="badge badge-warning" ng-show="viewTarifa"> de {{tarifa | currency}}
-                hasta {{tarifa2 | currency}} </span> </h6>
-            <hr>
-            <div class="container pt-3">
-              <input type="text" id="priceRange" class="slider" />
-            </div>
-          </div>
-          <!-- search zonas  -->
-          <div class="form-group mt-3">
-            <h6>Zonas donde presta servicio</h6>
-            <hr>
-            <div class="content hideContent mt-1 " ng-repeat="z in Zonas | limitTo :limit ">
-              <label class="color-check container-check-search dbl" for="{{z.id}}" style="font-size: 14px;"> {{z.name}}
-                <input type="radio" id="{{z.id}}" value="{{z.name}}" ng-model="z.isChecked" ng-click="getZonas(this.z)"
-                  ng-dblclick="loadPages()">
-                <span class="checkmark"></span>
-              </label>
-            </div>
-            <div>
-              <label class="color-label text-danger" ng-click="limite()" ng-hide="hidelimit"> + Ver más </label>
-              <label class="color-label text-danger" ng-click="limitTo()" ng-hide="hidelimitTo"> - Ver menos </label>
-            </div>
-          </div>
-        </div>
-        <div class="d-block d-sm-block d-md-none">
-          <button type="button" class=" mt-3  btn btn-filter btn-block" onclick="openNav()">Filtrar Niñeras <i
-              class="mt-1 fa fa-chevron-right float-right" aria-hidden="true"></i></button>
-        </div>
-        <!-- END  BUSCADOR  -->
+        </div> -->
+
+        <!-- END  BUSCADOR  AND FILTER -->
+        <!-- --------------------------------------------------------------------------------- -->
+        <!-- NG-REPEAT FOR ALL NANNYS IN THE DATABASES  -->
         <div class="col-sm-12 col-md-9">
           <div class="row">
             <div class="col-md-12 col-sm-12">
@@ -167,7 +233,7 @@
             <div class="col">
               <div class="row d-flex justify-content-center">
                 <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
-                  class="pagination-sm m-2 float-left" boundary-link-numbers="true" rotate="false"></ul>
+                  class="pagination-sm m-2 float-left" boundary-link-numbers="true" rotate="false" ng-change="pageChanged()"></ul>
                 <label class="m-2"> Resultados por página :</label>
                 <select ng-options="option.num for option in numPagesselected.pages track by option.id"
                   ng-model="numPagesselected.selectedOption" ng-change="changePages(this)">
@@ -176,6 +242,7 @@
             </div>
           </div>
         </div>
+        <!-- END NG-REPEAT FOR ALL NANNYS  -->
       </div>
     </div>
   </div>
@@ -183,6 +250,15 @@
     <% include partials/footer/footer%>
   </div>
   <% include partials/script/script%>
+  <script>
+    function openNav() {
+      document.getElementById("myNav").style.width = "100%";
+    }
+
+    function closeNav() {
+      document.getElementById("myNav").style.width = "0%";
+    }
+  </script>
 </body>
 
 </html>
