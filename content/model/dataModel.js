@@ -525,9 +525,6 @@ var numPages= {
   }, {
     id: '4',
     num: 50
-  }, {
-    id: '5',
-    num: 60
   }
 
   ],

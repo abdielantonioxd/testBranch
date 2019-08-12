@@ -817,3 +817,14 @@ input:checked+.slider:before {
   /* width: 500px; */
   border-radius: inherit;
 }
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #fff;
+  background-color: #a92b82;
+  border-color: #aa2c83;
+}
+
+.page-link{
+  color: #000000 !important;
+}

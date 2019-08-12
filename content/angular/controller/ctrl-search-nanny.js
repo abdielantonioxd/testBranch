@@ -373,38 +373,25 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   }
 
   function pagination(op) {
-    $scope.currentPage = 0;
-    $scope.pageSize = op;
-    $scope.pages = [];
-    $scope.pages.length = 0;
-    var ini = $scope.currentPage;
-    var fin = $scope.currentPage + 5;
-    if (ini < 1) {
-      ini = 1;
-      if (Math.ceil($scope.resultNannypagination.length / $scope.pageSize) > 5)
-        fin = 10;
-      else
-        fin = Math.ceil($scope.resultNannypagination.length / $scope.pageSize);
-    } else {
-      if (ini >= Math.ceil($scope.resultNannypagination.length / $scope.pageSize) - 10) {
-        ini = Math.ceil($scope.resultNannypagination.length / $scope.pageSize) - 10;
-        fin = Math.ceil($scope.resultNannypagination.length / $scope.pageSize);
-      }
-    }
+    $scope.viewby = op;
+    $scope.totalItems = $scope.resultNanny.length;
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = $scope.viewby;
+    $scope.maxSize = 5; //Number of pager buttons to show
 
-    if (ini < 1) ini = 6;
-    for (var i = ini; i <= fin; i++) {
-      $scope.pages.push({
-        num: i
-      });
-    }
-
-    if ($scope.currentPage >= $scope.pages.length) {
-      $scope.currentPage = $scope.pages.length - 1;
-    }
-    $scope.setPage = function (index) {
-      $scope.currentPage = index + 1;
+    $scope.setPage = function (pageNo) {
+      $scope.currentPage = pageNo;
     };
+
+    $scope.pageChanged = function () {
+      console.log('Page changed to: ' + $scope.currentPage);
+    };
+
+    $scope.setItemsPerPage = function (num) {
+      console.log(num)
+      $scope.itemsPerPage = num;
+      $scope.currentPage = 1; //reset to first page
+    }
   }
 
   $scope.loadPages = function (op) {
@@ -633,5 +620,4 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   if (cookie_experience === "" && cookie_groupYears === "" && cookie_serviceEsp === "" && cookie_zone === "") {
     $scope.loadPages(op);
   }
-
 }])
