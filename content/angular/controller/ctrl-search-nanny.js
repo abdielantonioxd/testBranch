@@ -105,10 +105,11 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
 
   function filterListYearsOld() {
     var obj = {
-      data: listYearOldNanny,
+      data:   listZonasNannys + ',' + listServicesSpecial  + ',' + listYearOldNanny,
       experiencia: $scope.newExpe,
       option: 'GruposE'
     };
+    console.log(obj)
     $scope.filterList(obj)
   }
 
@@ -145,7 +146,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       cookie.set("servicesEspe-persistence", listServicesSpecial, 1);
       if (listServicesSpecial.length > 1) {
         var obj = {
-          data: listServicesSpecial,
+          data:  listZonasNannys + ',' + listServicesSpecial  + ',' + listYearOldNanny,
           experiencia: $scope.newExpe,
           option: 'ServiciosEs'
         };
@@ -179,7 +180,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       cookie.set("zone-persistence", listZonasNannys, 1);
       if (listZonasNannys.length > 1) {
         var obj = {
-          data: listZonasNannys,
+          data:  listZonasNannys + ',' + listServicesSpecial  + ',' + listYearOldNanny,
           experiencia: $scope.newExpe,
           option: 'Zonas'
         };
@@ -230,6 +231,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     alertify.set('notifier', 'position', 'top-right');
     alertify.success(`${$scope.result} Resultados de la busqueda `);
     var numPages = $scope.result
+    var numPages = 10 ; 
     pagination(numPages, Pselect)
   }
 
@@ -402,7 +404,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
 
       pagination(op, Pselect)
     })
-
   }
 
   function pagination(op, Pselect) {
@@ -454,7 +455,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   }
 
   function persistenceGroupOfYearsNannys() {
-    
+
     $scope.groupYearsNannyArray = cookie_groupYears.split(",", 9);
     $scope.groupYears = $scope.groupYearsNannyArray;
     $.each($scope.groupYears, function (i, v) {
@@ -475,21 +476,27 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     } else {
       exp = 0
     }
-    var obj = {
-      data: cookie_groupYears,
-      experiencia: exp,
-      option: 'GruposE'
-    };
+   
     if ($scope.groupYearsNannyArray.length > 1) {
-     $scope.filterList(obj);
-     console.log('Two ')
-     
+      var obj = {
+        data: cookie_groupYears,
+        experiencia: exp,
+        option: 'GruposE'
+      };
+      $scope.filterList(obj);
+      console.log('Two ')
 
-    }else{
-      $scope.filter(obj) 
+
+    } else {
+      var obj = {
+        data:`%${cookie_groupYears}%`,
+        experiencia: exp,
+        option: 'GruposE'
+      };
+      $scope.filter(obj)
       console.log('one ')
     }
-   
+
   }
 
   function persistenceServicesEspe() {
@@ -513,12 +520,23 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     } else {
       exp = 0
     }
-    var obj = {
-      data: cookie_serviceEsp,
-      experiencia: exp,
-      option: 'ServiciosEs'
-    };
-    $scope.filterList(obj);
+
+    if ($scope.serviceEspNannyArray.length > 1) {
+      var obj = {
+        data: cookie_serviceEsp,
+        experiencia: exp,
+        option: 'ServiciosEs'
+      };
+      $scope.filterList(obj);
+    } else {
+      var obj = {
+        data: `%${cookie_serviceEsp}%`,
+        experiencia: exp,
+        option: 'ServiciosEs'
+      };
+      $scope.filter(obj);
+    }
+
   }
 
   function persistenceZone() {
@@ -542,12 +560,22 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     } else {
       exp = 0
     }
-    var obj = {
-      data: cookie_zone,
-      experiencia: exp,
-      option: 'Zonas'
-    };
-    $scope.filterList(obj)
+    if ($scope.zoneNannyArray.length > 1) {
+      var obj = {
+        data: cookie_zone,
+        experiencia: exp,
+        option: 'Zonas'
+      };
+      $scope.filterList(obj);
+    } else {
+      var obj = {
+        data: `%${cookie_zone}%`,
+        experiencia: exp,
+        option: 'Zonas'
+      };
+      $scope.filter(obj);
+    }
+
   }
 
   function persistenceRangeYearsOld() {
@@ -586,7 +614,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   /* ========================================= */
   //       LOAD   PERSISTENCE OF DATA 
   /* ========================================= */
-  
+
   setTimeout(() => {
     if (cookie_experience != "") {
       setPersistenceExp()
