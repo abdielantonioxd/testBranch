@@ -875,7 +875,7 @@ input:checked+.slider:before {
   }
 
   .overlay .closebtn {
-   top: 10px;
+   top: -10px;
     right: 34px;
     font-size: 54px;
   }
@@ -891,7 +891,7 @@ input:checked+.slider:before {
 
   .overlay .closebtn {
     font-size: 40px;
-    /* top: 15px; */
+    margin-top: -15px;
     right: 35px;
   }
 }
