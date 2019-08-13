@@ -4,7 +4,7 @@
 }
 
 ::-webkit-scrollbar {
-  width: 10px !important;
+  width: 5px !important;
   background-color: #555 !important;
 }
 
@@ -836,8 +836,8 @@ input:checked+.slider:before {
   .overlay {
     width: 0%;    
   }
-
 }
+
 /* cambios css para modo vertical y horizontal */
 @media only screen and (min-width: 320px) and (max-width: 756px) {
   .overlay {
@@ -851,7 +851,7 @@ input:checked+.slider:before {
     padding-left: 15px;
     background-color: #ffffff;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: 0.10s;
   }
 
   .overlay-content {
@@ -883,6 +883,7 @@ input:checked+.slider:before {
   .col-movile {
     /* width: 100% !important; */
     height: 100% !important;
+    transition: 0.5s;
   }
   .overlay a {
     font-size: 20px
