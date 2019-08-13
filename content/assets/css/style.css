@@ -806,13 +806,13 @@ input:checked+.slider:before {
 }
 
 .btn-filter{
-  background-color: #8c868a !important;
+  background-color: #aa2b83  !important;
   color: #ffffff;
   /* width: 500px; */
   border-radius: inherit;
 }
 .btn-filter:hover{
-  background-color: #aa2a82 !important;
+  background-color: #791459 !important;
   color: #ffffff;
   /* width: 500px; */
   border-radius: inherit;
