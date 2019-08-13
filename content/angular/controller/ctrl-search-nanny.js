@@ -635,18 +635,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       persistenceZone();
     }
 
-    if (cookie_rangeYearsOld != "" && cookie_rangeYearsOld != '18,80') {
-      persistenceRangeYearsOld()
-    } else {
-      filterYearsOld(setRangeYearsOldMin, setRangeYearsOldMax, exp);
-    }
-
-    if (cookie_rangePrice != "" && cookie_rangePrice != '5,100') {
-      persistenceRangePrice();
-    } else {
-      filterPrice(setRangePricedMin, setRangePricedMax, exp);
-    }
-
   }, 200);
 
   /* ========================================= */
@@ -666,7 +654,17 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   // filterYearsOld(setRangeYearsOldMin, setRangeYearsOldMax, exp);
   // filterPrice(setRangePricedMin, setRangePricedMax, exp);
   // $scope.loadPages(op);
+  if (cookie_rangeYearsOld != "" && cookie_rangeYearsOld != '18,80') {
+    persistenceRangeYearsOld()
+  } else {
+    filterYearsOld(setRangeYearsOldMin, setRangeYearsOldMax, exp);
+  }
 
+  if (cookie_rangePrice != "" && cookie_rangePrice != '5,100') {
+    persistenceRangePrice();
+  } else {
+    filterPrice(setRangePricedMin, setRangePricedMax, exp);
+  }
   if (cookie_pagesSelected != "") {
     Pselect = cookie_pagesSelected;
     $scope.loadPages(op, Pselect);

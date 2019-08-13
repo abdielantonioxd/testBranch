@@ -4,71 +4,15 @@
 <%include partials/head/headSearch%>
 
 <body ng-cloak>
-  <style>
-    /* ----------- dispositivos móviles ----------- */
-    /* cambios css para modo vertical y horizontal */
-    @media only screen and (min-width: 320px) and (max-width: 736px) {
-      .overlay {
-        height: 100%;
-        width: 0;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        background-color: #ffffff;
-        background-color: #ffffff;
-        overflow-x: hidden;
-        transition: 0.5s;
-      }
-
-      .overlay-content {
-        /* position: relative; */
-        top: 25%;
-        width: 100%
-      }
-
-      .overlay a {
-        padding: 8px;
-        text-decoration: none;
-        font-size: 36px;
-        color: #818181;
-        display: block;
-        transition: 0.3s;
-      }
-
-      .overlay a:hover,
-      .overlay a:focus {
-        color: #f1f1f1;
-      }
-
-      .overlay .closebtn {
-        position: absolute;
-        /* top: 20px; */
-        right: 34px;
-        font-size: 54px;
-      }
-    }
-
-    @media screen and (max-height: 450px) {
-      .overlay a {
-        font-size: 20px
-      }
-
-      .overlay .closebtn {
-        font-size: 40px;
-        top: 15px;
-        right: 35px;
-      }
-    }
-  </style>
   <% include partials/header/header%>
   <div ng-controller="ctrl-search-nanny">
     <div class="container">
       <div class="row">
         <!-- BUSCADOR AND FILTER   -->
-          <div class=" col-sm-8 col-md-3 border-rigth mt-3 ">
-             
-            <h5 class="text-center mt-2">Búsqueda de Nanny</h5>
+        <div class=" col-sm-8 col-md-3 border-rigth mt-3 ">
+          <div id="myNav" class="overlay">
+            <a class="closebtn d-block d-sm-block d-md-none" onclick="closeNav()">&times;</a>
+            <h5 class="text-center ">Búsqueda de Nanny</h5>
             <!-- <h4 class="text-center mt-3" style="color: #a92a82;">Buscador</h4> -->
             <!-- seacrh imput -->
             <div class="input-group input-group-sm mb-3 mt-3">
@@ -156,9 +100,10 @@
               </div>
             </div>
           </div>
+        </div>
 
         <!-- BUTTON FILTER FOR MOVILE -->
-        <!-- <div class="container  d-block d-sm-block d-md-none">
+        <div class="container  d-block d-sm-block d-md-none">
           <div class="row d-flex justify-content-center">
             <div class="col-sm-8">
 
@@ -166,7 +111,7 @@
                   class="mt-1 fa fa-chevron-right float-right" aria-hidden="true"></i></button>
             </div>
           </div>
-        </div> -->
+        </div>
 
         <!-- END  BUSCADOR  AND FILTER -->
         <!-- --------------------------------------------------------------------------------- -->
@@ -233,7 +178,8 @@
             <div class="col">
               <div class="row d-flex justify-content-center">
                 <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
-                  class="pagination-sm m-2 float-left" boundary-link-numbers="true" rotate="false" ng-change="pageChanged()"></ul>
+                  class="pagination-sm m-2 float-left" boundary-link-numbers="true" rotate="false"
+                  ng-change="pageChanged()"></ul>
                 <label class="m-2"> Resultados por página :</label>
                 <select ng-options="option.num for option in numPagesselected.pages track by option.id"
                   ng-model="numPagesselected.selectedOption" ng-change="changePages(this)">
@@ -252,11 +198,12 @@
   <% include partials/script/script%>
   <script>
     function openNav() {
+      document.getElementById("myNav").classList.add('col-movile');
       document.getElementById("myNav").style.width = "100%";
     }
 
     function closeNav() {
-      document.getElementById("myNav").style.width = "0%";
+      document.getElementById("myNav").classList.remove('col-movile');
     }
   </script>
 </body>
