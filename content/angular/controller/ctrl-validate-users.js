@@ -25,7 +25,7 @@ app.controller('ctrl-validate-session', ['$scope', 'Dataservice', function ($sco
       }
       // console.log(opInit)
     } else {
-      console.log('no session NANNY ')
+      // console.log('no session NANNY ')
     }
   }
 

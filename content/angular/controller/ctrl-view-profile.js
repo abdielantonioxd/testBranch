@@ -90,6 +90,7 @@ app.controller('ctrlProfile', ['$scope', 'Dataservice', function ($scope, Datase
       }
     })
   }
+  
   function LoadDispoibilidad() {
     // console.log(dataservice)
     Dataservice.getDisponibilidadNanny(id).then(function (data) {
