@@ -5,6 +5,8 @@ app.factory("Dataservice", function ($http) {
   const UrlFilter = 'api/send-filter/json';
   const UrlFilterList ='api/send-filterlist/json';
   const UrlFilterAll = 'api/filter-all/json';
+  const UrlCountNanny = 'api/count-nannys/json';
+  const UrlPaginationNanny = 'api/load-nannys/json'
   var Dataservice = {
     GetFilter: function () {
       var loc = document.URL;
@@ -24,6 +26,17 @@ app.factory("Dataservice", function ($http) {
       return $http.get(Nannys).then(function (data) {
         return data
       })
+    },
+     countNanny: function () {
+      return $http.get(UrlCountNanny).then(function (data) {
+        return data
+      })
+    },
+    loadPagesNanny: function (start,limit) {
+      return $http.post(UrlPaginationNanny, { start: start, limit: limit}).then(function (data) {
+        return data
+      })
+
     },
     getData: function (id) {
       return $http.post(getnanny, { id: id }).then(function (data) {

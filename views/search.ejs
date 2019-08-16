@@ -9,7 +9,7 @@
     <div class="container">
       <div class="row">
         <!-- BUSCADOR AND FILTER   -->
-        <div class=" col-sm-8 col-md-3 border-rigth mt-3 ">
+        <div class=" col-sm-8 col-md-3 border-rigth mt-3 " name="top_pages">
           <div id="myNav" class="overlay">
             <a class="closebtn float-right d-block d-sm-block d-md-none" onclick="closeNav()">&times;</a>
             <div class="mt-5">
@@ -123,7 +123,7 @@
             <div class="col-md-12 col-sm-12">
               <h5 class="float-left m-3">Encuentra una nanny al instante</h5>
               <button class="btn btn-light active bg-light border-light float-right m-3" type="button">
-                <span class="badge badge-warning m-2">{{result}}</span>Resultados
+                <span class="badge badge-warning m-2">{{countNannys}}</span>Resultados
               </button>
             </div>
           </div>
@@ -181,10 +181,10 @@
               <div class="row d-flex justify-content-center">
                 <ul uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize"
                   class="pagination-sm m-2 float-left" boundary-link-numbers="true" rotate="false"
-                  ng-change="pageChanged()"></ul>
+                  ng-change="pageChanged()" ></ul>
                 <label class="m-2"> Resultados por página :</label>
                 <select ng-options="option.num for option in numPagesselected.pages track by option.id"
-                  ng-model="numPagesselected.selectedOption" ng-change="changePages(this)">
+                  ng-model="numPagesselected.selectedOption" ng-change="setItemsPerPage(this)">
                 </select>
               </div>
             </div>
