@@ -424,12 +424,10 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
 
   function pagination(op, Pselect) {
     // console.log(cookie_rouwCount)
-    $scope.viewby = op;
     $scope.totalItems = cookie_rouwCount;
     $scope.currentPage = Pselect;
     $scope.itemsPerPage = $scope.viewby;
-    $scope.maxSize = 5; 
-
+    $scope.maxSize = 5;  
     $scope.setPage = function (pageNo) {
       $scope.currentPage = pageNo;
     };
