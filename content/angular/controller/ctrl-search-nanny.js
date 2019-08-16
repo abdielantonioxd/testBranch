@@ -428,7 +428,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     $scope.totalItems = cookie_rouwCount;
     $scope.currentPage = Pselect;
     $scope.itemsPerPage = $scope.viewby;
-    $scope.maxSize = 5;
+    $scope.maxSize = 5;  
 
     $scope.setPage = function (pageNo) {
       $scope.currentPage = pageNo;
