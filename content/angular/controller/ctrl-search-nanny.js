@@ -377,14 +377,14 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   function countPagesNanny() {
     Dataservice.countNanny().then(function (data) {
       $scope.countNannys = data.data.result.Database[0].Table.Row[0][0].rows;
-      cookie.set("countRow-persistence", $scope.countNannys , 1);
+      cookie.set("countRow-persistence", $scope.countNannys, 1);
     })
   }
 
-  $scope.loadPages = function (op,Pselect) {
+  $scope.loadPages = function (op, Pselect) {
 
     if ($scope.newExpe === 0 && listTempGroupYears.length === 0 && listServicesSpecial.length === 0 && listZonasNannys.length === 0 && cookie_experience === "" && cookie_groupYears === "" && cookie_serviceEsp === "" && cookie_zone === "" && cookie_rangePrice === "" && cookie_rangeYearsOld === "") {
-      getDataPaginationNanny(op,Pselect );
+      getDataPaginationNanny(op, Pselect);
     }
   }
 
@@ -695,7 +695,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
 
   if (cookie_pagesSelected != "") {
     countPagesNanny()
-    Pselect =  parseInt(cookie_pagesSelected, 10);
+    Pselect = parseInt(cookie_pagesSelected, 10);
     $scope.loadPages(op, Pselect);
   } else {
     if (cookie_experience === "" && cookie_groupYears === "" && cookie_serviceEsp === "" && cookie_zone === "" && cookie_rangePrice === "") {
