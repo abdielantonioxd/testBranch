@@ -47,7 +47,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   var cookie_rangeYearsOld = cookie.get("rangeYearsOld-persistence");
   var cookie_rangePrice = cookie.get("rangePrice-persistence");
   var cookie_pagesSelected = cookie.get("PagesSelected-persistence");
-  var cookie_rouwCount = cookie.get("countRow-persistence")
+  var cookie_rouwCount = cookie.get("countRow-persistence");
 
   /** ============================================================== */
   //                    SEARCH AND FILTER   NANNYS  
@@ -226,8 +226,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
 
   function showNewData(newDataNanny) {
     $scope.$watch($scope.resultNanny = newDataNanny,
-      $scope.result = newDataNanny.length,
-      $scope.countNannys = newDataNanny.length
+      $scope.countNannys = newDataNanny.length,
     )
     alertify.set('notifier', 'position', 'top-right');
     alertify.success(`${$scope.result} Resultados de la busqueda `);
@@ -382,7 +381,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   }
 
   $scope.loadPages = function (op, Pselect) {
-
     if ($scope.newExpe === 0 && listTempGroupYears.length === 0 && listServicesSpecial.length === 0 && listZonasNannys.length === 0 && cookie_experience === "" && cookie_groupYears === "" && cookie_serviceEsp === "" && cookie_zone === "" && cookie_rangePrice === "" && cookie_rangeYearsOld === "") {
       getDataPaginationNanny(op, Pselect);
     }
@@ -396,12 +394,11 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       start: 0,
       limit: Pselect + "0"
     }
-    Dataservice.loadPagesNanny(dataPagination.start, dataPagination.limit).then(function (response) {
-      $scope.result = response.data.result.Database[0].Table.Row[0].length;
-      $scope.resultNannypagination = response.data.result.Database[0].Table.Row[0];
+    Dataservice.loadPagesNanny(dataPagination.start, dataPagination.limit).then(function (data) {
+      $scope.result = data.data.result.Database[0].Table.Row[0].length;
+      $scope.resultNannypagination = data.data.result.Database[0].Table.Row[0];
       $scope.resultNanny = $scope.resultNannypagination;
-      // console.log($scope.resultNanny)
-      if (response.data.result.Database[0].Table.Row[0].length != 0) {
+      if (data.data.result.Database[0].Table.Row[0].length != 0) {
         if ($scope.resultNanny[0].certificacion == "") {
           $scope.certifify = true;
         } else {
@@ -423,11 +420,14 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   }
 
   function pagination(op, Pselect) {
-    // console.log(cookie_rouwCount)
     $scope.totalItems = cookie_rouwCount;
     $scope.currentPage = Pselect;
-    $scope.itemsPerPage = $scope.viewby;
-    $scope.maxSize = 5;  
+    $scope.itemsPerPage = op;
+    $scope.maxSize = 5;
+    $scope.setPage = function (pageNo) {
+      $scope.currentPage = pageNo;
+    };
+
     $scope.setPage = function (pageNo) {
       $scope.currentPage = pageNo;
     };
@@ -675,10 +675,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
     cookie.delete("PagesSelected-persistence")
     location.href = "/busqueda-de-nanny"
   }
-
-  // filterYearsOld(setRangeYearsOldMin, setRangeYearsOldMax, exp);
-  // filterPrice(setRangePricedMin, setRangePricedMax, exp);
-  // $scope.loadPages(op);
   if (cookie_rangeYearsOld != "" && cookie_rangeYearsOld != '18,80') {
     persistenceRangeYearsOld()
   } else {
