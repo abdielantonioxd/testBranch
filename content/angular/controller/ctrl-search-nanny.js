@@ -104,38 +104,63 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
 
   }
 
+  $scope.getGroupYearsOld = function (getGroupYearsOld) {
+    if (listTempGroupYears != "") {
+      var obYears = listTempGroupYears.split(',');
+      listYearOldNanny = obYears;
+    }
+
+    if (getGroupYearsOld.id != oldValueGroup) {
+      var isChecked = document.getElementById(getGroupYearsOld.id).checked;
+      if (isChecked === true) {
+        if (listYearOldNanny.length > 0) {
+          listYearOldNanny.push(getGroupYearsOld.name);
+        } else {
+          listYearOldNanny.push(getGroupYearsOld.name);
+        }
+        cookie.set("groupYearsOldNannys-persistence", listYearOldNanny, 1);
+        selectedOptionFilter()
+      } else {
+        if (listYearOldNanny.length != 0) {
+          for (const key in listYearOldNanny) {
+            if (listYearOldNanny[key] === getGroupYearsOld.name) {
+              document.getElementsByTagName(getGroupYearsOld.id).checked;
+              listYearOldNanny.splice(key, 1)
+              cookie.set("groupYearsOldNannys-persistence", listYearOldNanny, 1);
+              window.location.href = "/busqueda-de-nanny"
+
+            }
+          }
+        }
+      }
+      oldValueGroup = getGroupYearsOld.id;
+    } else {
+
+    }
+  }
+
+  function selectedOptionFilter() {
+    if (listYearOldNanny.length > 1) {
+      filterListYearsOld()
+    } else {
+      var obj = {
+        data: `%${listYearOldNanny}%`,
+        experiencia: $scope.newExpe,
+        option: 'GruposE'
+      };
+      console.log(obj)
+      $scope.filter(obj)
+    }
+  }
+
   function filterListYearsOld() {
     var obj = {
       data: listZonasNannys + ',' + listServicesSpecial + ',' + listYearOldNanny,
       experiencia: $scope.newExpe,
       option: 'GruposE'
     };
-    // console.log(obj)
+    console.log(obj)
     $scope.filterList(obj)
-  }
-
-  $scope.getGroupYearsOld = function (getGroupYearsOld) {
-    if (listTempGroupYears != "") {
-      listYearOldNanny.push(listTempGroupYears);
-    }
-    if (getGroupYearsOld.id != oldValueGroup) {
-      listYearOldNanny.push(getGroupYearsOld.name);
-      cookie.set("groupYearsOldNannys-persistence", listYearOldNanny, 1);
-      if (listYearOldNanny.length > 1) {
-        filterListYearsOld()
-      } else {
-        var obj = {
-          data: `%${listYearOldNanny}%`,
-          experiencia: $scope.newExpe,
-          option: 'GruposE'
-        };
-        console.log(listYearOldNanny)
-        $scope.filter(obj)
-      }
-      oldValueGroup = getGroupYearsOld.id;
-    } else {
-      // $scope.loadPages(op)
-    }
   }
 
   $scope.getServiceEspeciales = function (servEspeciales) {
@@ -229,7 +254,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       $scope.countNannys = newDataNanny.length,
     )
     alertify.set('notifier', 'position', 'top-right');
-    alertify.success(`${ $scope.countNannys } Resultados de la busqueda `);
+    alertify.success(`${$scope.countNannys} Resultados de la busqueda `);
     var numPages = 10
     pagination(numPages, Pselect)
   }
@@ -381,7 +406,7 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   }
 
   $scope.loadPages = function (op, Pselect) {
-    if ($scope.newExpe === 0 && listTempGroupYears.length === 0 && listServicesSpecial.length === 0 && listZonasNannys.length === 0 && cookie_experience === "" && cookie_zone === "" ) {
+    if ($scope.newExpe === 0 && listTempGroupYears.length === 0 && listServicesSpecial.length === 0 && listZonasNannys.length === 0 && cookie_experience === "" && cookie_zone === "") {
       getDataPaginationNanny(op, Pselect);
     }
   }
@@ -640,16 +665,41 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
   }
 
   /* ========================================= */
+  //              DELETE COOKIE
+  /* ========================================= */
+  $scope.deletecookie = function () {
+    cookie.delete("experience-persistence");
+    cookie.delete("groupYearsOldNannys-persistence");
+    cookie.delete("servicesEspe-persistence");
+    cookie.delete("zone-persistence")
+    cookie.delete("rangeYearsOld-persistence");
+    cookie.delete("rangePrice-persistence");
+    cookie.delete("PagesSelected-persistence")
+    location.href = "/busqueda-de-nanny"
+  }
+
+  /* ========================================= */
   //       LOAD   PERSISTENCE OF DATA 
   /* ========================================= */
+  if (cookie_rangeYearsOld != "" && cookie_rangeYearsOld != '18,80') {
+    persistenceRangeYearsOld()
+  } else {
+    filterYearsOld(setRangeYearsOldMin, setRangeYearsOldMax, exp);
+  }
 
+  if (cookie_rangePrice != "" && cookie_rangePrice != '5,100') {
+    persistenceRangePrice();
+  } else {
+    filterPrice(setRangePricedMin, setRangePricedMax, exp);
+  }
+  
   setTimeout(() => {
     if (cookie_experience != "") {
       setPersistenceExp()
     }
 
     if (cookie_groupYears != "") {
-      listTempGroupYears.push(cookie_groupYears);
+      listTempGroupYears = cookie_groupYears;
       persistenceGroupOfYearsNannys();
     }
 
@@ -665,32 +715,6 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
 
   }, 200);
 
-  /* ========================================= */
-  //              DELETE COOKIE
-  /* ========================================= */
-  $scope.deletecookie = function () {
-    cookie.delete("experience-persistence");
-    cookie.delete("groupYearsOldNannys-persistence");
-    cookie.delete("servicesEspe-persistence");
-    cookie.delete("zone-persistence")
-    cookie.delete("rangeYearsOld-persistence");
-    cookie.delete("rangePrice-persistence");
-    cookie.delete("PagesSelected-persistence")
-    location.href = "/busqueda-de-nanny"
-  }
-  
-  if (cookie_rangeYearsOld != "" && cookie_rangeYearsOld != '18,80') {
-    persistenceRangeYearsOld()
-  } else {
-    filterYearsOld(setRangeYearsOldMin, setRangeYearsOldMax, exp);
-  }
-
-  if (cookie_rangePrice != "" && cookie_rangePrice != '5,100') {
-    persistenceRangePrice();
-  } else {
-    filterPrice(setRangePricedMin, setRangePricedMax, exp);
-  }
-
   if (cookie_pagesSelected != "") {
     countPagesNanny()
     Pselect = parseInt(cookie_pagesSelected, 10);
@@ -701,5 +725,5 @@ app.controller('ctrl-search-nanny', ['$scope', 'Dataservice', '$http', function 
       $scope.loadPages(op, Pselect);
     }
   }
-  // countPagesNanny()
+
 }])

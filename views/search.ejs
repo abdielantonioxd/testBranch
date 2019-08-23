@@ -2,8 +2,19 @@
 <html lang="en" ng-app="nannyApp">
 
 <%include partials/head/headSearch%>
-
-<body ng-cloak>
+<style>
+.loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('images/reload.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .6;
+}</style>
+<body id="dataOfnanny" ng-cloak>
+    <div class="loader"></div>
   <% include partials/header/header%>
   <div ng-controller="ctrl-search-nanny">
     <div class="container">
@@ -118,7 +129,7 @@
         <!-- END  BUSCADOR  AND FILTER -->
         <!-- --------------------------------------------------------------------------------- -->
         <!-- NG-REPEAT FOR ALL NANNYS IN THE DATABASES  -->
-        <div class="col-sm-12 col-md-9">
+        <div class="col-sm-12 col-md-9" >
           <div class="row">
             <div class="col-md-12 col-sm-12">
               <h5 class="float-left m-3">Encuentra una nanny al instante</h5>
@@ -207,6 +218,14 @@
     function closeNav() {
       document.getElementById("myNav").classList.remove('col-movile');
     }
+
+    $(window).load(function() {
+                $(".loader").fadeOut("slow");
+            });
+
+            setTimeout(() => {
+              $(".loader").hide();
+            }, 2000);
   </script>
 </body>
 
