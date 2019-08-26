@@ -1,6 +1,6 @@
 app.controller('ctrl-validate-session', ['$scope', 'Dataservice', function ($scope, Dataservice) {
   $scope.sessionActive = true;
-  $scope.sessionNanny = true;
+  $scope.sessionNanny = true;  
   $scope.sessionFacebook = true;
   $scope.sessionGoogle = true;
   $scope.UserActiveNanny = JSON.parse(UserNanny);
@@ -27,7 +27,7 @@ app.controller('ctrl-validate-session', ['$scope', 'Dataservice', function ($sco
     } else {
       // console.log('no session NANNY ')
     }
-  }
+  }   
 
   // function userExistFather() {
   //   if ($scope.UserActiveFather != null) {
